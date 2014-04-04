@@ -4,7 +4,7 @@
   "description": "Simple Markdown files server",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec --require test/bootstrap/node test/*.test.js"
+    "test": "mocha test/*.test.js"
   },
   "repository": {
     "type": "git",

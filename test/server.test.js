@@ -7,9 +7,13 @@ describe('MarkdownServer', function() {
         var rootDir = path.resolve(__dirname, 'fixture');
         var s = new server.MarkdownServer(rootDir);
 
-        it('"/test-no-yml" succeeds', function(done) {
-            s.get('/test-no-yml', function(err, result) {
+        it('"/test" succeeds', function(done) {
+            s.get('/test', function(err, result) {
                 result.should.be.ok;
+                should.exist(result.meta);
+
+                console.log(typeof result);
+
                 done();
             });
         });
