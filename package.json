@@ -1,0 +1,34 @@
+{
+  "name": "markdown-serve",
+  "version": "0.1.0",
+  "description": "Simple Markdown files server",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec --require test/bootstrap/node test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lyphtec/markdown-serve.git"
+  },
+  "keywords": [
+    "express",
+    "markdown",
+    "middleware"
+  ],
+  "author": "Nguyen Ly <lyphtec@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lyphtec/markdown-serve/issues"
+  },
+  "homepage": "https://github.com/lyphtec/markdown-serve",
+  "dependencies": {
+    "marked": "~0.3.2",
+    "js-yaml": "~3.0.2",
+    "highlight.js": "~8.0.0",
+    "lodash": "~2.4.1"
+  },
+  "devDependencies": {
+    "mocha": "~1.18.2",
+    "chai": "~1.9.1"
+  }
+}
