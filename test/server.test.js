@@ -64,6 +64,7 @@ describe('middleware()', function() {
                 result.should.be.ok;
                 result.parsedContent.should.be.ok;
                 result.meta.should.be.ok;
+                should.not.exist(result._file);
 
                 done();
             });

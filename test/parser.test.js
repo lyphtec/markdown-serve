@@ -19,7 +19,7 @@ describe('parser', function() {
             parser.parse(file, null, function(err, result) {
                 should.not.exist(err);
                 result.should.be.ok;
-                result.file.should.equal(file);
+                result._file.should.equal(file);
                 should.not.exist(result.meta);
                 should.exist(result.checksum);
                 should.exist(result.stats);
@@ -39,7 +39,7 @@ describe('parser', function() {
             parser.parse(file, null, function(err, result) {
                 should.not.exist(err);
                 result.should.be.ok;
-                result.file.should.equal(file);
+                result._file.should.equal(file);
                 should.exist(result.meta);
                 result.meta.title.should.equal('Hello World');
 
