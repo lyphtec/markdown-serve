@@ -1,7 +1,7 @@
 {
   "name": "markdown-serve",
-  "version": "0.2.1",
-  "description": "Simple Markdown files server",
+  "version": "0.2.2",
+  "description": "Simple Markdown files server for use as an Express (connect) middleware or standalone",
   "main": "index.js",
   "scripts": {
     "test": "mocha test/*.test.js"
@@ -13,6 +13,9 @@
   "keywords": [
     "express",
     "markdown",
+    "middleware",
+    "markdown-serve",
+    "express middleware",
     "middleware"
   ],
   "author": "Nguyen Ly <lyphtec@gmail.com>",

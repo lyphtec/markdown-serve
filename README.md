@@ -126,6 +126,10 @@ block content
         != markdownFile.parseContent()
 ```
 
+If no view is specified, the module will return a JSON response of the markdownFile object with HTML content available as the
+`markdownFile.parsedContent` property.
+
+
 ### As a custom middleware
 
 ```js
@@ -146,7 +150,7 @@ var server = require('markdown-serve');
 exports.handler = function(req, res, next) {
     if (req.method !== 'GET') next();
 
-    var markdownServer = new server.MarkdownServer({ rootDirectory: path.resolve(__dirname, 'guides') });
+    var markdownServer = new server.MarkdownServer( path.resolve(__dirname, 'guides') );
 
     markdownServer.get(req.path, function(err, result) {
         // result is a MarkdownFile instance
@@ -159,7 +163,7 @@ exports.handler = function(req, res, next) {
 
         // apply some custom logic based on YAML front-matter variables
         if (result.meta && !result.meta.draft) {
-            var view = result.meta.layout ? result.meta.layout : 'default';
+            var view = result.meta.layout || 'default';
 
             res.render(view, { markdownFile: result });
         } else {
