@@ -59,7 +59,7 @@ describe('parser', function() {
                 should.not.exist(err);
                 result.should.be.ok;
                 should.exist(result.meta);
-                should.not.exist(result.markedOptions);
+                should.not.exist(result._markedOptions);
 
                 done();
             });
@@ -79,8 +79,8 @@ describe('parser', function() {
                 should.not.exist(err);
                 result.should.be.ok;
                 should.exist(result.meta);
-                should.exist(result.markedOptions);
-                result.markedOptions.should.equal(opts);
+                should.exist(result._markedOptions);
+                result._markedOptions.should.equal(opts);
 
                 result.parseContent(function(err, content) {
                     content.should.not.contain('hljs-keyword');
