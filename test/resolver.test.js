@@ -73,4 +73,9 @@ describe('resolver', function() {
         should.exist(file);
         file.should.equal(path.resolve(rootDir, 'sub/index.md'));
     });
+
+    it('should not resolve "/test/"', function() {
+        var file = resolver('/test/', rootDir);
+        should.not.exist(file);
+    });
 });
