@@ -1,4 +1,3 @@
-README.md
 Makefile
 build/
 docs/
@@ -6,13 +5,13 @@ examples/
 reports/
 support/
 test/
+.travis.yml
 
 # Mac OS X
 .DS_Store
 
 # Node.js
 .npmignore
-node_modules/
 npm-debug.log
 
 # Git

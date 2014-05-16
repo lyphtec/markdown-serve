@@ -1,6 +1,6 @@
 {
   "name": "markdown-serve",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Simple Markdown files server for use as an Express (connect) middleware or standalone",
   "main": "index.js",
   "scripts": {
@@ -15,8 +15,7 @@
     "markdown",
     "middleware",
     "markdown-serve",
-    "express middleware",
-    "middleware"
+    "express middleware"
   ],
   "author": "Nguyen Ly <lyphtec@gmail.com>",
   "license": "MIT",

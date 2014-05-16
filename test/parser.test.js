@@ -1,5 +1,5 @@
 var parser = require('../lib/parser'),
-    path = require('path')
+    path = require('path'),
     fs = require('fs');
 
 describe('parser', function() {
@@ -35,6 +35,25 @@ describe('parser', function() {
 
         it('should succeed', function(done) {
             var file = path.resolve(__dirname, 'fixture/test.md');
+
+            parser.parse(file, null, function(err, result) {
+                should.not.exist(err);
+                result.should.be.ok;
+                result._file.should.equal(file);
+                should.exist(result.meta);
+                result.meta.title.should.equal('Hello World');
+
+                result.parseContent(function(err, content) {
+                    content.should.be.ok;
+                    content.should.contain('hljs-keyword');
+
+                    done();
+                });
+            });
+        });
+
+        it('should succeed for Jekyll format', function(done) {
+            var file = path.resolve(__dirname, 'fixture/test-jekyll.md');
 
             parser.parse(file, null, function(err, result) {
                 should.not.exist(err);

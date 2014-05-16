@@ -105,6 +105,10 @@ describe('middleware()', function() {
 
         request(app)
             .post('/test')
-            .expect(404, done);    
+            .expect(404)
+            .end(function(err, res) {
+                if (err) return done(err);
+                done();
+            });
     });
 });
