@@ -86,7 +86,7 @@ on the MarkdownFile object.  The reasoning behind this is sometimes to you do no
 need to apply some custom logic to specific front-matter variables 1st - eg. implementing a "draft publishing" feature.
 
 However, in some situations (eg. hbs view engine) - the view doesn't support calling methods on the view model object passed to it.  In this
-case, when used as a middleware, you can set the preParse option to true and the parsed HTML content will be available as a string on the
+case, when used as a middleware, you can set the `preParse` option to true and the parsed HTML content will be available as a string on the
 `markdownFile.parsedContent` property.
 
 ### MarkdownServer
@@ -134,7 +134,7 @@ block content
 If no view is specified, the module will return a JSON response of the markdownFile object with HTML content available as the
 `markdownFile.parsedContent` property.
 
-The `preParse` option can also be set when using a view to make the HTML content content available as the `markdownFile.parsedContent`
+The `preParse` option can also be set when using a view to make the HTML content available as the `markdownFile.parsedContent`
 property. This is to support some view engines like [hbs](https://github.com/donpark/hbs), as it doesn't support calling the parseContent()
 method in the view.
 
