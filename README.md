@@ -50,6 +50,11 @@ valid YAML tag can be specified here and will be available as a JavaScript objec
 specify things such as the title of the file, or whether it is published.
 
 
+## Install
+
+    $ npm install markdown-serve
+
+
 ## API
 
 The module exposes 2 main objects. [`MarkdownFile`](https://github.com/lyphtec/markdown-serve/blob/master/lib/parser.js#L68) & [`MarkdownServer`](https://github.com/lyphtec/markdown-serve/blob/master/lib/server.js#L57).
@@ -69,6 +74,7 @@ size | property {number} | Size in bytes of file
 checksum | property {string} | SHA1 checksum of file contents (can be used as an ETag)
 parseContent | method {takes callback} | parses rawContent & returns HTML (via marked module)
 saveChanges | method {takes callback} | writes changes back to file on disk, overwriting existing file if it exists
+parsedContent | property {string} | Result from parseContent() as a string - Only made available when preParse option is set to true
 
 This object is made available as `markdownFile` view model object to the view when used as a simple middleware.  It also returns as a result
 of the call to `MarkdownServer.get()`.
@@ -79,6 +85,10 @@ Notice that the parsed Markdown content (HTML) is available as an additional ste
 on the MarkdownFile object.  The reasoning behind this is sometimes to you do not need to get at the HTML content straight away and
 need to apply some custom logic to specific front-matter variables 1st - eg. implementing a "draft publishing" feature.
 
+However, in some situations (eg. hbs view engine) - the view doesn't support calling methods on the view model object passed to it.  In this
+case, when used as a middleware, you can set the preParse option to true and the parsed HTML content will be available as a string on the
+`markdownFile.parsedContent` property.
+
 ### MarkdownServer
 
 Member | Type | Desc
@@ -86,11 +96,6 @@ Member | Type | Desc
 rootDirectory | property {string} | Full path to root directory containing Markdown files to serve
 markedOptions | property {Object} | Global marked module options for Markdown processing
 get | method {takes path & callback args} | resolves & returns MarkdownFile for specified URI path
-
-
-## Install
-
-    $ npm install markdown-serve
 
 
 ## Usage
@@ -128,6 +133,19 @@ block content
 
 If no view is specified, the module will return a JSON response of the markdownFile object with HTML content available as the
 `markdownFile.parsedContent` property.
+
+The `preParse` option can also be set when using a view to make the HTML content content available as the `markdownFile.parsedContent`
+property. This is to support some view engines like [hbs](https://github.com/donpark/hbs), as it doesn't support calling the parseContent()
+method in the view.
+
+```js
+// pre-parse for use with hbs view engine
+app.use(markdownServer.middleware({ 
+    rootDirectory: path.resolve(__dirname, 'guides'),
+    view: 'markdown',
+    preParse: true    // setting this will parse the content and make it available as markdownFile.parsedContent without needing to call parseContent() in the view
+}));
+```
 
 
 ### As a custom middleware
@@ -211,6 +229,10 @@ block content
 
 Note in the above example, the Markdown file can dictate which view is used to render the content (via the "layout" variable in the
 front-matter).
+
+## More Samples
+
+- [See here](https://github.com/lyphtec/markdown-serve-examples)
 
 ## Best Practices
 
