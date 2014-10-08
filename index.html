@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>markdown-serve Index</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.spacelab.css">
+
+</head>
+
+<body>
+<div class="container-fluid">
+	<div class="navbar navbar-fixed-top ">
+		<div class="navbar-inner">
+			<a class="brand" href="index.html">markdown-serve</a>
+			<ul class="nav">
+				
+				<li class="dropdown">
+					<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="module-markdown-serve.html">markdown-serve</a>
+						</li>
+						
+						<li>
+							<a href="parser.html">markdown-serve/parser</a>
+						</li>
+						
+						<li>
+							<a href="resolver.html">markdown-serve/resolver</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="MarkdownFile.html">MarkdownFile</a>
+						</li>
+						
+						<li>
+							<a href="MarkdownServer.html">MarkdownServer</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+
+		
+		<div class="span8">
+			
+				<div id="main">
+					
+
+
+	
+	<span class="page-title">Index</span>
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+
+    <section class="readme-section">
+        <article><h1>markdown-serve</h1><p><a href="https://travis-ci.org/lyphtec/markdown-serve"><img src="https://travis-ci.org/lyphtec/markdown-serve.svg?branch=master" alt="Build Status"></a></p>
+<p>Simple Markdown files server that can be used as an Express middleware or standalone.</p>
+<h2>Overview</h2><p>The idea is simple.  You specify a folder containing Markdown text files you want to make available.  The module will host these files and
+provide URI-like navigation to specific files based on simple routing rules.</p>
+<p>For example, assume you have the following folder containing some Markdown files:</p>
+<pre class="prettyprint source"><code>/home/john/guide
+   |---- index.md
+   |---- about.md
+   |---- walk-through/
+             |---- index.md 
+             |---- act-1-town-area.md
+             |---- act-1-dungeon.md</code></pre><p>By specifying <code>/home/john/guide</code> as the root directory, the module can resolve the following paths to the relevant file:</p>
+<pre class="prettyprint source"><code>/                             ---> /home/john/guide/index.md  (this is the &quot;root&quot; path)
+/about                        ---> /home/john/guide/about.md
+/walk-through/                ---> /home/john/guide/walk-through/index.md (note the trailing slash in the path)
+/walk-through/act-1-dungeon   ---> /home/john/guide/walk-through/act-1-dungeon.md
+
+Note that you don't need to specify the file extension (.md) in the path as this is already assumed.</code></pre><p>The path <a href="https://github.com/lyphtec/markdown-serve/blob/master/lib/resolver.js">resolver</a> is smart enough to handle spaces in sub folder /
+file names. So, given this file <code>/home/john/guide/&quot;cheat codes&quot;/&quot;open portal.md&quot;</code>  (Quotes indicated here are actually not part of the
+folder / file name, but just to highlight that they have spaces in the name).  The following paths all resolve to the same file:</p>
+<pre class="prettyprint source"><code>/cheat-codes/open-portal        (auto sluggification)
+/cheat%20codes/open%20portal    (URL encoding)
+/cheat codes/open portal</code></pre><p>Note the auto &quot;sluggification&quot; - i.e. replacing spaces with dashes, allowing you to have clean URI navigation to the file.</p>
+<p>The Markdown file can contain optional YAML front-matter (from start of file to first line starting with 3 dashes &quot;---&quot;).  This is
+compatible with files used in <a href="http://jekyllrb.com">Jekyll</a>, <a href="http://octopress.org">Octopress</a>, &amp; <a href="http://hexo.io">Hexo</a>.  Any arbitrary
+valid YAML tag can be specified here and will be available as a JavaScript object at the <code>markdownFile.meta</code> property.  You can use this to
+specify things such as the title of the file, or whether it is published.</p>
+<h3>Usage Scenario</h3><p>When would you use this module or how is it different to Jekyll, Octopress, or Hexo?</p>
+<p>In principle, the Markdown source files used by all of these frameworks and <em>markdown-serve</em> are cross compatible. However, these frameworks are
+static site generators. A process has to be run each time a source file is updated, new files added, or the site requires style changes to re-create the updated site. <em>markdown-serve</em> on the other hand brings together
+the flexiblity of having static source Markdown content files, but the serving of these files are dynamic as they are hosted in a Node
+Express server.  Source content can be updated, new files added etc, and the changes will be instantly available on the website without requiring
+any re-generation process to run.</p>
+<p>It is ideally suited for any small to medium websites where a full blown CMS is not required.  It can be used to build mini CMS like sites
+(ala WordPress), blogs, or integrated into a larger Node Express application.</p>
+<p>For example, with a personal blog website, if you have full control over the hosting environment, you can use cloud storage services like DropBox to contain your source Markdown content files.  On the hosting server,
+you would have the DropBox daemon running to sync with your content folder, and serve up the content with <em>markdown-serve</em> running in an
+Express app. Then, regardless of which platform or device you are on, you can very easily update your website by just editing files in
+DropBox!</p>
+<h2>Install</h2><pre class="prettyprint source"><code>$ npm install markdown-serve</code></pre><h2>API</h2><p>See <a href="http://lyphtec.github.io/markdown-serve">API documentation</a></p>
+<h2>Usage</h2><h3>As a simple middleware</h3><pre class="prettyprint source lang-js"><code>// example app.js
+
+var express = require('express'),
+    mds = require('markdown-serve'),
+    path = require('path');
+
+
+var app = express();
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+app.use(mds.middleware({ 
+    rootDirectory: path.resolve(__dirname, 'guides'),
+    view: 'markdown'
+}));
+
+
+// example views/markdown.jade (as referenced by view parameter above):
+
+extends layout
+
+block content
+    h1= markdownFile.meta.title
+    #content
+        != markdownFile.parseContent()</code></pre><p>If no view and handler are specified, the module will return a JSON response of the <code>MarkdownFile</code> object with HTML content available as the
+<code>markdownFile.parsedContent</code> property.</p>
+<p>The <code>preParse</code> option can also be set when using a view to make the HTML content available as the <code>markdownFile.parsedContent</code>
+property. This is to support some view engines like <a href="https://github.com/donpark/hbs">hbs</a>, as it doesn't support calling the
+<code>parseContent()</code> method in the view.</p>
+<pre class="prettyprint source lang-js"><code>// pre-parse for use with hbs view engine
+app.set('view engine', 'hbs');
+
+app.use(mds.middleware({ 
+    rootDirectory: path.resolve(__dirname, 'guides'),
+    view: 'markdown',
+    preParse: true    // setting this will parse the content and make it available as `markdownFile.parsedContent` without needing to call `parseContent()` in the view
+}));
+
+// views/markdown.hbs
+&lt;div class=&quot;container&quot;>
+    &lt;h1>{{mardownFile.meta.title}}&lt;/h1>
+
+    {{{markdownFile.parsedContent}}}
+
+    &lt;footer>
+        &lt;hr />
+        &lt;strong>Created:&lt;/strong> {{markdownFile.created}}
+    &lt;/footer>
+&lt;/div></code></pre><p>The <code>preParse</code> option can also be specified as a function. In this case, the return object from the function will be passed directly as a
+view model to the view.</p>
+<pre class="prettyprint source lang-js"><code>// preParse option specified as a function
+app.use(mds.middleware({
+    rootDirectory: path.resolve(__dirname, 'guides'),
+    view: 'markdown',
+    preParse: function(markdownFile) {
+        return { title: markdownFile.meta.title, content: markdownFile.parseContent(), created: moment(markdownFile.created).format('L') };
+    }
+}));
+
+// views/markdown.hbs - bind directly to properties on returned object
+&lt;div class=&quot;container&quot;>
+   &lt;h1>{{title}}&lt;/h1>
+
+   {{{content}}}
+
+   &lt;footer>
+       &lt;hr />
+       &lt;strong>Created:&lt;/strong> {{created}}
+   &lt;/footer>
+&lt;/div></code></pre><p>If you want full customization of the middleware behaviour, specify a <code>handler</code> function. Note that to use this option, do not specify the
+<code>view</code> option as that will take precedence.</p>
+<pre class="prettyprint source lang-js"><code>// custom handler
+app.use(mds.middleware({
+   rootDirectory: path.resolve(__dirname, 'content'),
+   handler: function(markdownFile, req, res, next) {
+       if (req.method !== 'GET') next();
+
+       // limit access based on draft variable in front-matter
+       if (markdownFile.meta.draft && !req.isAuthenticated && !req.user.isAdmin) {
+           next();
+           return;   // need return here
+       }        
+
+       res.render('markdown', { title: markdownFile.meta.title, content: markdownFile.parseContent() });
+   }
+}));</code></pre><h3>As a custom middleware</h3><p>For ultimate control, define your own middleware handler.</p>
+<pre class="prettyprint source lang-js"><code>// example app.js
+var express = require('express'),
+    markdown = require('./routes/markdown');
+
+var app = express();
+
+app.get('*', markdown.handler);</code></pre><pre class="prettyprint source lang-js"><code>// file routes/markdown.js
+
+var server = require('markdown-serve');
+
+exports.handler = function(req, res, next) {
+    if (req.method !== 'GET') next();
+
+    var markdownServer = new server.MarkdownServer( path.resolve(__dirname, 'guides') );
+
+    markdownServer.get(req.path, function(err, result) {
+        // result is a MarkdownFile instance
+
+        if (err) {
+            console.log(err);
+            next();   // just log error & pass it to next middleware
+            return;   // need return here because we are inside a callback
+        }
+
+        // apply some custom logic based on YAML front-matter variables
+        if (result.meta && !result.meta.draft) {
+            var view = result.meta.layout || 'default';
+
+            res.render(view, { markdownFile: result });
+        } else {
+            // treat files with no front-matter / draft mode as non-existant
+            next();
+        }
+    });
+}</code></pre><p>Sample markdown file at <code>guides/test.md</code>:</p>
+<pre class="prettyprint source lang-markdown"><code>title: My awesome guide
+draft: false
+published: 2014-04-01 12:40:00
+layout: guide
+---
+
+# My awesome guide
+
+This is some Markdown content for [guide](http://some.co/cat.jpg)
+
+Bullets:
+
+- One
+- Two
+- Three</code></pre><pre class="prettyprint source lang-js"><code>// file views/guide.jade
+
+extends layout
+
+block content
+    h1= markdownFile.meta.title
+
+    p.
+        Published: #{markdownFile.meta.published}
+        Created: #{markdownFile.created}
+
+    #content!= markdownFile.parseContent()</code></pre><p>Note in the above example, the Markdown file can dictate which view is used to render the content (via the &quot;layout&quot; variable in the
+front-matter).</p>
+<h2>More Samples</h2><ul>
+<li><a href="https://github.com/lyphtec/markdown-serve-examples">See here</a></li>
+</ul>
+<h2>Best Practices</h2><ul>
+<li>Stick with all lowercase sub-folder / file names. On case-sensitive OS'es (Linux/Mac) - the resolver uses exact folder / file name match with '.md' as file extension for Markdown files.</li>
+<li>Avoid spaces in sub-folder / file names.  The resolver can find the file quicker if it's an exact match.</li>
+<li>Be aware of trailing slashes in the path. This is treated as a sub-folder and actually looks for a file named &quot;index.md&quot; contained within it.</li>
+</ul>
+<h2>Similar Projects</h2><ul>
+<li><a href="http://hexo.io">Hexo</a> - Blog framework / static site generator</li>
+<li><a href="https://github.com/JamesHight/express-markdown">express-markdown</a> - Very simple Express middleware for rendering Markdown files</li>
+</ul>
+<h2>Useful Resources</h2><ul>
+<li><a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown cheatsheet</a></li>
+</ul>
+<h2>License</h2><p>(The MIT License)</p>
+<p>Copyright (c) 2014 Nguyen Ly</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p></article>
+    </section>
+
+
+
+
+
+
+
+				</div>
+
+				<div class="clearfix"></div>
+				<footer>
+					
+					
+		<span class="jsdoc-message">
+		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha9</a>
+		on Thu Oct 9th 2014 using the <a
+			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		</span>
+				</footer>
+			</div>
+
+			
+			<div class="span3">
+				<div id="toc"></div>
+			</div>
+			
+			<br clear="both">
+		</div>
+
+	</div>
+	<!--<script src="scripts/sunlight.js"></script>-->
+	<script src="scripts/docstrap.lib.js"></script>
+	<script src="scripts/bootstrap-dropdown.js"></script>
+	<script src="scripts/toc.js"></script>
+
+	<script>
+		$( function () {
+			$( "[id*='$']" ).each( function () {
+				var $this = $( this );
+
+				$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+			} );
+
+			$( "#toc" ).toc( {
+				anchorName  : function ( i, heading, prefix ) {
+					return $( heading ).attr( "id" ) || ( prefix + i );
+				},
+				selectors   : "h1,h2,h3,h4",
+				showAndHide : false,
+				scrollTo    : "100px"
+			} );
+
+			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+			$( '.dropdown-toggle' ).dropdown();
+//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+			$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+				var $this = $( this );
+
+				var example = $this.find( "code" );
+				exampleText = example.html();
+				var lang = /{@lang (.*?)}/.exec( exampleText );
+				if ( lang && lang[1] ) {
+					exampleText = exampleText.replace( lang[0], "" );
+					example.html( exampleText );
+					lang = lang[1];
+				} else {
+					lang = "javascript";
+				}
+
+				if ( lang ) {
+
+					$this
+						.addClass( "sunlight-highlight-" + lang )
+						.addClass( "linenums" )
+						.html( example.html() );
+
+				}
+			} );
+
+			Sunlight.highlightAll( {
+				lineNumbers : true,
+				showMenu : true,
+				enableDoclinks : true
+			} );
+		} );
+	 </script>
+
+
+
+	<!--Navigation and Symbol Display-->
+	
+
+
+	<!--Google Analytics-->
+	
+
+</body>
+</html>
