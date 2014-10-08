@@ -1,6 +1,8 @@
 node_modules
 *.log
-
+test/fixture/new.md
+test/fixture/server-new.md
+test/fixture/new/
 
 # Windows image file caches
 Thumbs.db

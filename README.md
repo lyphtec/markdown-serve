@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/lyphtec/markdown-serve.svg?branch=master)](https://travis-ci.org/lyphtec/markdown-serve)
 
-Simple Markdown files server that can be used as an Express (connect) middleware or standalone.
+Simple Markdown files server that can be used as an Express middleware or standalone.
 
 ## Overview
 
@@ -24,12 +24,12 @@ For example, assume you have the following folder containing some Markdown files
 By specifying `/home/john/guide` as the root directory, the module can resolve the following paths to the relevant file:
 
 ```
-    /                             ---> /home/john/guide/index.md  (this is the "root" path)
-    /about                        ---> /home/john/guide/about.md
-    /walk-through/                ---> /home/john/guide/walk-through/index.md (note the trailing slash in the path)
-    /walk-through/act-1-dungeon   ---> /home/john/guide/walk-through/act-1-dungeon.md
+/                             ---> /home/john/guide/index.md  (this is the "root" path)
+/about                        ---> /home/john/guide/about.md
+/walk-through/                ---> /home/john/guide/walk-through/index.md (note the trailing slash in the path)
+/walk-through/act-1-dungeon   ---> /home/john/guide/walk-through/act-1-dungeon.md
 
-    Note that you don't need to specify the file extension (.md) in the path as this is already assumed.
+Note that you don't need to specify the file extension (.md) in the path as this is already assumed.
 ```
 
 The path [resolver](https://github.com/lyphtec/markdown-serve/blob/master/lib/resolver.js) is smart enough to handle spaces in sub folder /
@@ -37,9 +37,9 @@ file names. So, given this file `/home/john/guide/"cheat codes"/"open portal.md"
 folder / file name, but just to highlight that they have spaces in the name).  The following paths all resolve to the same file:
 
 ```
-    /cheat-codes/open-portal        (auto sluggification)
-    /cheat%20codes/open%20portal    (URL encoding)
-    /cheat codes/open portal
+/cheat-codes/open-portal        (auto sluggification)
+/cheat%20codes/open%20portal    (URL encoding)
+/cheat codes/open portal
 ```
 
 Note the auto "sluggification" - i.e. replacing spaces with dashes, allowing you to have clean URI navigation to the file.
@@ -49,6 +49,23 @@ compatible with files used in [Jekyll](http://jekyllrb.com), [Octopress](http://
 valid YAML tag can be specified here and will be available as a JavaScript object at the `markdownFile.meta` property.  You can use this to
 specify things such as the title of the file, or whether it is published.
 
+### Usage Scenario
+
+When would you use this module or how is it different to Jekyll, Octopress, or Hexo?
+
+In principle, the Markdown source files used by all of these frameworks and *markdown-serve* are cross compatible. However, these frameworks are
+static site generators. A process has to be run each time a source file is updated, new files added, or the site requires style changes to re-create the updated site. *markdown-serve* on the other hand brings together
+the flexiblity of having static source Markdown content files, but the serving of these files are dynamic as they are hosted in a Node
+Express server.  Source content can be updated, new files added etc, and the changes will be instantly available on the website without requiring
+any re-generation process to run.
+
+It is ideally suited for any small to medium websites where a full blown CMS is not required.  It can be used to build mini CMS like sites
+(ala WordPress), blogs, or integrated into a larger Node Express application.
+
+For example, with a personal blog website, if you have full control over the hosting environment, you can use cloud storage services like DropBox to contain your source Markdown content files.  On the hosting server,
+you would have the DropBox daemon running to sync with your content folder, and serve up the content with *markdown-serve* running in an
+Express app. Then, regardless of which platform or device you are on, you can very easily update your website by just editing files in
+DropBox!
 
 ## Install
 
@@ -57,46 +74,7 @@ specify things such as the title of the file, or whether it is published.
 
 ## API
 
-The module exposes 2 main objects. [`MarkdownFile`](https://github.com/lyphtec/markdown-serve/blob/master/lib/parser.js#L68) & [`MarkdownServer`](https://github.com/lyphtec/markdown-serve/blob/master/lib/server.js#L57).
-
-### MarkdownFile
-
-Member | Type | Desc
---- | --- | ---
-_file | property {string} | full path to original file
-meta | property {Object} | YAML front-matter converted to a JavaScript object
-rawContent | property {string} | raw Markdown content of file
-_markedOptions | property {Object} | options to pass to marked module for Markdown parsing
-stats | property {Object} | fs.Stats object containing properties of file
-created | property {Date} | Date file created
-modified | property {Date} | Date file modified
-size | property {number} | Size in bytes of file
-checksum | property {string} | SHA1 checksum of file contents (can be used as an ETag)
-parseContent | method {takes callback} | parses rawContent & returns HTML (via marked module)
-saveChanges | method {takes callback} | writes changes back to file on disk, overwriting existing file if it exists
-parsedContent | property {string} | Result from parseContent() as a string - Only made available when preParse option is set to true
-
-This object is made available as `markdownFile` view model object to the view when used as a simple middleware.  It also returns as a result
-of the call to `MarkdownServer.get()`.
-
-Members with name starting with an underscore (_) are designed to be used internally.
-
-Notice that the parsed Markdown content (HTML) is available as an additional step (call to parseContent() method), rather than as a string property
-on the MarkdownFile object.  The reasoning behind this is sometimes to you do not need to get at the HTML content straight away and
-need to apply some custom logic to specific front-matter variables 1st - eg. implementing a "draft publishing" feature.
-
-However, in some situations (eg. hbs view engine) - the view doesn't support calling methods on the view model object passed to it.  In this
-case, when used as a middleware, you can set the `preParse` option to true and the parsed HTML content will be available as a string on the
-`markdownFile.parsedContent` property.
-
-### MarkdownServer
-
-Member | Type | Desc
---- | --- | ---
-rootDirectory | property {string} | Full path to root directory containing Markdown files to serve
-markedOptions | property {Object} | Global marked module options for Markdown processing
-get | method {takes path & callback args} | resolves & returns MarkdownFile for specified URI path
-
+See [API documentation](http://lyphtec.github.io/markdown-serve)
 
 ## Usage
 
@@ -106,7 +84,7 @@ get | method {takes path & callback args} | resolves & returns MarkdownFile for 
 // example app.js
 
 var express = require('express'),
-    markdownServer = require('markdown-serve'),
+    mds = require('markdown-serve'),
     path = require('path');
 
 
@@ -115,7 +93,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(markdownServer.middleware({ 
+app.use(mds.middleware({ 
     rootDirectory: path.resolve(__dirname, 'guides'),
     view: 'markdown'
 }));
@@ -131,24 +109,85 @@ block content
         != markdownFile.parseContent()
 ```
 
-If no view is specified, the module will return a JSON response of the markdownFile object with HTML content available as the
+If no view and handler are specified, the module will return a JSON response of the `MarkdownFile` object with HTML content available as the
 `markdownFile.parsedContent` property.
 
 The `preParse` option can also be set when using a view to make the HTML content available as the `markdownFile.parsedContent`
-property. This is to support some view engines like [hbs](https://github.com/donpark/hbs), as it doesn't support calling the parseContent()
-method in the view.
+property. This is to support some view engines like [hbs](https://github.com/donpark/hbs), as it doesn't support calling the
+`parseContent()` method in the view.
 
 ```js
 // pre-parse for use with hbs view engine
-app.use(markdownServer.middleware({ 
+app.set('view engine', 'hbs');
+
+app.use(mds.middleware({ 
     rootDirectory: path.resolve(__dirname, 'guides'),
     view: 'markdown',
-    preParse: true    // setting this will parse the content and make it available as markdownFile.parsedContent without needing to call parseContent() in the view
+    preParse: true    // setting this will parse the content and make it available as `markdownFile.parsedContent` without needing to call `parseContent()` in the view
+}));
+
+// views/markdown.hbs
+<div class="container">
+    <h1>{{mardownFile.meta.title}}</h1>
+
+    {{{markdownFile.parsedContent}}}
+
+    <footer>
+        <hr />
+        <strong>Created:</strong> {{markdownFile.created}}
+    </footer>
+</div>
+```
+
+The `preParse` option can also be specified as a function. In this case, the return object from the function will be passed directly as a
+view model to the view.
+
+```js
+// preParse option specified as a function
+app.use(mds.middleware({
+    rootDirectory: path.resolve(__dirname, 'guides'),
+    view: 'markdown',
+    preParse: function(markdownFile) {
+        return { title: markdownFile.meta.title, content: markdownFile.parseContent(), created: moment(markdownFile.created).format('L') };
+    }
+}));
+
+// views/markdown.hbs - bind directly to properties on returned object
+<div class="container">
+   <h1>{{title}}</h1>
+
+   {{{content}}}
+
+   <footer>
+       <hr />
+       <strong>Created:</strong> {{created}}
+   </footer>
+</div>
+```
+If you want full customization of the middleware behaviour, specify a `handler` function. Note that to use this option, do not specify the
+`view` option as that will take precedence.
+
+```js
+// custom handler
+app.use(mds.middleware({
+   rootDirectory: path.resolve(__dirname, 'content'),
+   handler: function(markdownFile, req, res, next) {
+       if (req.method !== 'GET') next();
+
+       // limit access based on draft variable in front-matter
+       if (markdownFile.meta.draft && !req.isAuthenticated && !req.user.isAdmin) {
+           next();
+           return;   // need return here
+       }        
+
+       res.render('markdown', { title: markdownFile.meta.title, content: markdownFile.parseContent() });
+   }
 }));
 ```
 
-
 ### As a custom middleware
+
+For ultimate control, define your own middleware handler.
 
 ```js
 // example app.js

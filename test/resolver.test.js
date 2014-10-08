@@ -78,4 +78,22 @@ describe('resolver', function() {
         var file = resolver('/test/', rootDir);
         should.not.exist(file);
     });
+
+    it('should resolve "/new" with file extention option', function() {
+        var file = resolver('/new', rootDir, { fileExtension: 'markdown' });
+        should.exist(file);
+        file.should.equal(path.resolve(rootDir, 'new.markdown'));
+    });
+
+    it('should resolve "/sub/" with default page name option', function() {
+        var file = resolver('/sub/', rootDir, { defaultPageName: 'default' });
+        should.exist(file);
+        file.should.equal(path.resolve(rootDir, 'sub/default.md'));
+    });
+
+    it('should resolve "/sub/" with all options', function() {
+        var file = resolver('/sub/', rootDir, { defaultPageName: 'custom', fileExtension: 'foo' });
+        should.exist(file);
+        file.should.equal(path.resolve(rootDir, 'sub/custom.foo'));
+    });
 });
