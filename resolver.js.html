@@ -115,7 +115,7 @@ var path = require('path'),
  * @function
  * @param {string} urlPath Relative URL path to file to try to resolve. Must start with a / and do not include the file extension
  * @param {string} rootDir Full path to root folder on file system that contains files to resolve
- * @param {MarkdownServer~resolverOptions=} options Optional options to specify default page name and file extension
+ * @param {resolverOptions=} options Optional [options]{@link MarkdownServer~resolverOptions} to specify default page name and file extension
  * @param {string} [options.defaultPageName=index] Name of default document
  * @param {string} [options.fileExtension=md] File extension of Markdown files
  * @returns {string} Full path to Markdown file if it exists, otherwise null
@@ -293,5 +293,6 @@ function exists(file) {
 	</script>
 	
 
+    
 </body>
 </html>

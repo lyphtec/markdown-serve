@@ -132,6 +132,7 @@ exports = module.exports = {
     /**
      * [parse()]{@link module:markdown-serve/parser.parse} callback
      * @callback module:markdown-serve/parser~parseCallback
+     * @alias parseCallback
      * @param {?Object} err Errors if any
      * @param {MarkdownFile} result
      */
@@ -141,7 +142,7 @@ exports = module.exports = {
      * @function
      * @param {string} file Full path to file to load
      * @param {?Object=} markedOptions Optional options to pass to "marked" module for Markdown processing
-     * @param {module:markdown-serve/parser~parseCallback} callback
+     * @param {parseCallback} callback [parseCallback]{@link module:markdown-serve/parser~parseCallback}
      * @returns {MarkdownFile}
      */
     parse : function(file, markedOptions, callback) {
@@ -191,7 +192,8 @@ exports = module.exports = {
 };
 
 /**
- * Represents a Markdown file
+ * Represents a Markdown file.
+ *
  * This object cannot be instantiated directly, but is returned as a result of [MarkdownServer.get()]{@link MarkdownServer#get} or [MarkdownServer.save()]{@link MarkdownServer#save}. It
  * is also made available as the `markdownFile` view model object passed to view when used as a simple middleware.
  *
@@ -240,7 +242,7 @@ function MarkdownFile(file) {
 
 /**
  * Parses [MarkdownFile.rawContent]{@link MarkdownFile#rawContent} &amp; returns HTML
- * @param {MarkdownFile~parseContentCallback} callback
+ * @param {parseContentCallback} callback [parseContentCallback]{@link MarkdownFile~parseContentCallback}
  * @returns {string} Converted HTML string
  */
 MarkdownFile.prototype.parseContent = function(callback) {
@@ -259,7 +261,7 @@ MarkdownFile.prototype.parseContent = function(callback) {
 
 /**
  * Writes changes back to file on disk, overwriting existing file if it exists
- * @param {MarkdownFile~saveChangesCallback} callback
+ * @param {saveChangesCallback} callback [saveChangesCallback]{@link MarkdownFile~saveChangesCallback}
  * @returns {boolean} Success indicator
  */
 MarkdownFile.prototype.saveChanges = function(callback) {
@@ -439,5 +441,6 @@ function checksum(str, algorithm, encoding) {
 	</script>
 	
 
+    
 </body>
 </html>
