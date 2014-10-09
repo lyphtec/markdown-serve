@@ -1,8 +1,10 @@
 # markdown-serve
 
-[![Build Status](https://travis-ci.org/lyphtec/markdown-serve.svg?branch=master)](https://travis-ci.org/lyphtec/markdown-serve)
-
 Simple Markdown files server that can be used as an Express middleware or standalone.
+
+[![NPM Version](https://img.shields.io/npm/v/markdown-serve.svg?style=flat)](https://www.npmjs.org/package/markdown-serve)
+[![Build Status](https://img.shields.io/travis/lyphtec/markdown-serve.svg?style=flat)](https://travis-ci.org/lyphtec/markdown-serve)
+
 
 ## Overview
 
@@ -11,36 +13,30 @@ provide URI-like navigation to specific files based on simple routing rules.
 
 For example, assume you have the following folder containing some Markdown files:
 
-```
-/home/john/guide
-   |---- index.md
-   |---- about.md
-   |---- walk-through/
-             |---- index.md 
-             |---- act-1-town-area.md
-             |---- act-1-dungeon.md
-```
+    /home/john/guide
+    |---- index.md
+    |---- about.md
+    |---- walk-through/
+                |---- index.md 
+                |---- act-1-town-area.md
+                |---- act-1-dungeon.md
 
 By specifying `/home/john/guide` as the root directory, the module can resolve the following paths to the relevant file:
 
-```
-/                             ---> /home/john/guide/index.md  (this is the "root" path)
-/about                        ---> /home/john/guide/about.md
-/walk-through/                ---> /home/john/guide/walk-through/index.md (note the trailing slash in the path)
-/walk-through/act-1-dungeon   ---> /home/john/guide/walk-through/act-1-dungeon.md
+    /                             ---> /home/john/guide/index.md  (this is the "root" path)
+    /about                        ---> /home/john/guide/about.md
+    /walk-through/                ---> /home/john/guide/walk-through/index.md (note the trailing slash in the path)
+    /walk-through/act-1-dungeon   ---> /home/john/guide/walk-through/act-1-dungeon.md
 
-Note that you don't need to specify the file extension (.md) in the path as this is already assumed.
-```
+    Note that you don't need to specify the file extension (.md) in the path as this is already assumed.
 
 The path [resolver](https://github.com/lyphtec/markdown-serve/blob/master/lib/resolver.js) is smart enough to handle spaces in sub folder /
 file names. So, given this file `/home/john/guide/"cheat codes"/"open portal.md"`  (Quotes indicated here are actually not part of the
 folder / file name, but just to highlight that they have spaces in the name).  The following paths all resolve to the same file:
 
-```
-/cheat-codes/open-portal        (auto sluggification)
-/cheat%20codes/open%20portal    (URL encoding)
-/cheat codes/open portal
-```
+    /cheat-codes/open-portal        (auto sluggification)
+    /cheat%20codes/open%20portal    (URL encoding)
+    /cheat codes/open portal
 
 Note the auto "sluggification" - i.e. replacing spaces with dashes, allowing you to have clean URI navigation to the file.
 
