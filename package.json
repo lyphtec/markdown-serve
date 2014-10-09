@@ -1,6 +1,6 @@
 {
   "name": "markdown-serve",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Simple Markdown files server for use as an Express middleware or standalone",
   "main": "index.js",
   "scripts": {
