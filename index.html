@@ -120,18 +120,19 @@
 
 
     <section class="readme-section">
-        <article><h1>markdown-serve</h1><p><a href="https://travis-ci.org/lyphtec/markdown-serve"><img src="https://travis-ci.org/lyphtec/markdown-serve.svg?branch=master" alt="Build Status"></a></p>
-<p>Simple Markdown files server that can be used as an Express middleware or standalone.</p>
+        <article><h1>markdown-serve</h1><p>Simple Markdown files server that can be used as an Express middleware or standalone.</p>
+<p><a href="https://www.npmjs.org/package/markdown-serve"><img src="https://img.shields.io/npm/v/markdown-serve.svg?style=flat" alt="NPM Version"></a>
+<a href="https://travis-ci.org/lyphtec/markdown-serve"><img src="https://img.shields.io/travis/lyphtec/markdown-serve.svg?style=flat" alt="Build Status"></a></p>
 <h2>Overview</h2><p>The idea is simple.  You specify a folder containing Markdown text files you want to make available.  The module will host these files and
 provide URI-like navigation to specific files based on simple routing rules.</p>
 <p>For example, assume you have the following folder containing some Markdown files:</p>
 <pre class="prettyprint source"><code>/home/john/guide
-   |---- index.md
-   |---- about.md
-   |---- walk-through/
-             |---- index.md 
-             |---- act-1-town-area.md
-             |---- act-1-dungeon.md</code></pre><p>By specifying <code>/home/john/guide</code> as the root directory, the module can resolve the following paths to the relevant file:</p>
+|---- index.md
+|---- about.md
+|---- walk-through/
+            |---- index.md 
+            |---- act-1-town-area.md
+            |---- act-1-dungeon.md</code></pre><p>By specifying <code>/home/john/guide</code> as the root directory, the module can resolve the following paths to the relevant file:</p>
 <pre class="prettyprint source"><code>/                             ---> /home/john/guide/index.md  (this is the &quot;root&quot; path)
 /about                        ---> /home/john/guide/about.md
 /walk-through/                ---> /home/john/guide/walk-through/index.md (note the trailing slash in the path)
