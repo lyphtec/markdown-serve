@@ -1,5 +1,7 @@
 # markdown-serve
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/lyphtec/markdown-serve?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Simple Markdown files server that can be used as an Express middleware or standalone.
 
 [![NPM Version](https://img.shields.io/npm/v/markdown-serve.svg?style=flat)](https://www.npmjs.org/package/markdown-serve)
