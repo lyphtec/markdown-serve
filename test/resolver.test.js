@@ -96,4 +96,10 @@ describe('resolver', function() {
         should.exist(file);
         file.should.equal(path.resolve(rootDir, 'sub/custom.foo'));
     });
+
+    it('should resolve "/test-use-extension.md" with use extension in url option', function() {
+        var file = resolver('/test-use-extension.md', rootDir, { useExtensionInUrl: true });
+        should.exist(file);
+        file.should.equal(path.resolve(rootDir, 'test-use-extension.md'));
+    });
 });
