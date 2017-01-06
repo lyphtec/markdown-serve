@@ -281,6 +281,57 @@ describe('middleware()', function() {
             .expect(404, done);
     });
 
+    it('should next() for other files if dontParseOtherExtensions is false', function(done) {
+        var app = express();
+
+        app.use(server.middleware({
+            rootDirectory: ROOT_DIR,
+            dontParseOtherExtensions: false
+        }));
+
+        request(app)
+            .get('/test-dont-parse.jpg')
+            .expect(404, done);
+    });
+
+    it('should return HTML for markdown files if dontParseOtherExtensions is true', function(done) {
+        var app = express();
+
+        app.set('views', path.join(__dirname, 'views'));
+        app.set('view engine', 'jade');
+
+        app.use(server.middleware({
+            rootDirectory: ROOT_DIR,
+            view: 'markdown-preparse',
+            preParse: true,
+            dontParseOtherExtensions: false
+        }));
+
+        request(app)
+            .get('/test')
+            .expect('Content-Type', /html/)
+            .expect(200, done);
+    });
+
+    it('should return image for jpeg files if dontParseOtherExtensions is true', function(done) {
+        var app = express();
+
+        app.set('views', path.join(__dirname, 'views'));
+        app.set('view engine', 'jade');
+
+        app.use(server.middleware({
+            rootDirectory: ROOT_DIR,
+            view: 'markdown-preparse',
+            preParse: true,
+            dontParseOtherExtensions: true
+        }));
+
+        request(app)
+            .get('/test-dont-parse.jpg')
+            .expect('Content-Type', /image/)
+            .expect(200, done);
+    });
+
     it('should next() if method is POST', function(done) {
         var app = express();
 
