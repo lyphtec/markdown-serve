@@ -79,7 +79,7 @@ describe('resolver', function() {
         should.not.exist(file);
     });
 
-    it('should resolve "/new" with file extention option', function() {
+    it('should resolve "/new" with file extension option', function() {
         var file = resolver('/new', rootDir, { fileExtension: 'markdown' });
         should.exist(file);
         file.should.equal(path.resolve(rootDir, 'new.markdown'));
@@ -101,5 +101,11 @@ describe('resolver', function() {
         var file = resolver('/test-use-extension.md', rootDir, { useExtensionInUrl: true });
         should.exist(file);
         file.should.equal(path.resolve(rootDir, 'test-use-extension.md'));
+    });
+
+    it('should resolve "/sub" with default page in containing folder', function() {
+        var file = resolver('/sub', rootDir);
+        should.exist(file);
+        file.should.equal(path.resolve(rootDir, 'sub/index.md'));
     });
 });
