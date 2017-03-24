@@ -152,7 +152,7 @@ describe('middleware()', function() {
 
     it('should throw error if no options arg', function() {
         // see https://github.com/chaijs/chai/issues/71
-        (function() { 
+        (function() {
             server.middleware();
         }).should.throw(Error);
     });
@@ -192,7 +192,7 @@ describe('middleware()', function() {
         app.set('views', path.join(__dirname, 'views'));
         app.set('view engine', 'jade');
 
-        app.use(server.middleware({ 
+        app.use(server.middleware({
             rootDirectory: ROOT_DIR,
             view: 'markdown'
         }));
@@ -255,7 +255,7 @@ describe('middleware()', function() {
         app.use(server.middleware({
             rootDirectory: ROOT_DIR,
             handler: function(markdownFile, req, res, next) {
-                
+
                 should.not.exist(markdownFile._file);
                 markdownFile.meta.should.be.ok;
 
