@@ -300,9 +300,8 @@ describe('middleware()', function() {
     request(app)
       .get('/foo-bar')
       .expect(404)
-      .expect(function() {
-          return logger.called === true;
-      }).end(function() {
+      .expect(logger.called === true)
+      .end(function() {
           return done();
       });
   });
