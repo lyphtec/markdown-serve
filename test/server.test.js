@@ -281,6 +281,31 @@ describe('middleware()', function() {
             .expect(404, done);
     });
 
+  it('should call optional logger if path not found', function(done) {
+    var app = express();
+
+    // Simple logger mock
+    var logger = {
+      called: false,
+      log: function() {
+        this.called = true;
+      }
+    };
+
+    app.use(server.middleware({
+      rootDirectory: ROOT_DIR,
+      logger: logger
+    }));
+
+    request(app)
+      .get('/foo-bar')
+      .expect(404)
+      .expect(logger.called === true)
+      .end(function() {
+          return done();
+      });
+  });
+
     it('should next() if method is POST', function(done) {
         var app = express();
 
