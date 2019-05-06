@@ -3,6 +3,9 @@ node_modules
 test/fixture/new.md
 test/fixture/server-new.md
 test/fixture/new/
+coverage
+.nyc_output
+.vscode
 
 # Windows image file caches
 Thumbs.db

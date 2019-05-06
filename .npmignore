@@ -6,6 +6,9 @@ reports/
 support/
 test/
 .travis.yml
+coverage/
+.nyc_output/
+.vscode/
 
 # Mac OS X
 .DS_Store
