@@ -1,6 +1,6 @@
 {
   "name": "markdown-serve",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Simple Markdown files server for use as an Express middleware or standalone",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   },
   "homepage": "http://lyphtec.github.io/markdown-serve",
   "dependencies": {
-    "highlight.js": "~9.15.6",
+    "highlight.js": "~9.15.8",
     "js-yaml": "~3.13.1",
     "lodash": "~4.17.11",
     "marked": "~0.6.2",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "chai": "~4.2.0",
-    "express": "~4.16.4",
+    "express": "~4.17.1",
     "jade": "~1.11.0",
     "mocha": "~6.1.4",
     "rimraf": "^2.6.3",
