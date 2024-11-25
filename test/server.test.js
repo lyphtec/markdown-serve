@@ -1,4 +1,5 @@
 var server = require('../lib/server.js'),
+    should = require('chai').should(),
     express = require('express'),
     request= require('supertest'),
     fs = require('fs'),
@@ -18,7 +19,7 @@ describe('MarkdownServer', function() {
             s.get('/test', function(err, result) {
                 result.should.be.ok;
                 should.exist(result.meta);
-
+                should.exist(result.rawContent);
                 done();
             });
         });
@@ -115,12 +116,11 @@ describe('MarkdownServer', function() {
         describe('update', function() {
             var file = path.resolve(__dirname, 'fixture/server-update.md');
 
-            beforeEach(function(done) {
+            before(function(done) {
                 fs.unlink(file, function(err) {
-                    // copy file : http://stackoverflow.com/questions/11293857/fastest-way-to-copy-file-in-node-js
-                    fs.createReadStream(path.resolve(__dirname, 'fixture/test.md')).pipe(fs.createWriteStream(file));
-
-                    done();
+                    fs.copyFile(path.resolve(__dirname, 'fixture/test.md'), file, function(err) {
+                        done();
+                    });
                 });
             });
 
@@ -190,7 +190,7 @@ describe('middleware()', function() {
         var app = express();
 
         app.set('views', path.join(__dirname, 'views'));
-        app.set('view engine', 'jade');
+        app.set('view engine', 'pug');
 
         app.use(server.middleware({
             rootDirectory: ROOT_DIR,
@@ -208,7 +208,7 @@ describe('middleware()', function() {
         var app = express();
 
         app.set('views', path.join(__dirname, 'views'));
-        app.set('view engine', 'jade');
+        app.set('view engine', 'pug');
 
         app.use(server.middleware({
             rootDirectory: ROOT_DIR,
@@ -228,7 +228,7 @@ describe('middleware()', function() {
         var app = express();
 
         app.set('views', path.join(__dirname, 'views'));
-        app.set('view engine', 'jade');
+        app.set('view engine', 'pug');
 
         app.use(server.middleware({
             rootDirectory: ROOT_DIR,
@@ -250,7 +250,7 @@ describe('middleware()', function() {
         var app = express();
 
         app.set('views', path.join(__dirname, 'views'));
-        app.set('view engine', 'jade');
+        app.set('view engine', 'pug');
 
         app.use(server.middleware({
             rootDirectory: ROOT_DIR,

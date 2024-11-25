@@ -1,4 +1,5 @@
 var resolver = require('../lib/resolver'),
+    should = require('chai').should(),
     path = require('path');
 
 describe('resolver', function() {

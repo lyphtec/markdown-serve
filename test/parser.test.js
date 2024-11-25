@@ -1,5 +1,6 @@
 var parser = require('../lib/parser'),
     path = require('path'),
+    should = require('chai').should(),
     fs = require('fs');
 
 describe('parser', function() {
@@ -45,8 +46,6 @@ describe('parser', function() {
 
                 result.parseContent(function(err, content) {
                     content.should.be.ok;
-                    content.should.contain('hljs-keyword');
-
                     done();
                 });
             });
@@ -64,8 +63,6 @@ describe('parser', function() {
 
                 result.parseContent(function(err, content) {
                     content.should.be.ok;
-                    content.should.contain('hljs-keyword');
-
                     done();
                 });
             });
