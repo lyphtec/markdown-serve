@@ -5,7 +5,6 @@
 Simple Markdown files server that can be used as an Express middleware or standalone.
 
 [![NPM Version](https://img.shields.io/npm/v/markdown-serve.svg?style=flat)](https://www.npmjs.org/package/markdown-serve)
-[![Build Status](https://img.shields.io/travis/lyphtec/markdown-serve.svg?style=flat)](https://travis-ci.org/lyphtec/markdown-serve)
 
 
 ## Overview
@@ -72,7 +71,7 @@ DropBox!
 
 ## API
 
-See [API documentation](http://lyphtec.github.io/markdown-serve)
+See [API documentation](https://lyphtec.github.io/markdown-serve)
 
 ## Usage
 
@@ -89,7 +88,7 @@ var express = require('express'),
 var app = express();
 
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 app.use(mds.middleware({ 
     rootDirectory: path.resolve(__dirname, 'guides'),
@@ -97,7 +96,7 @@ app.use(mds.middleware({
 }));
 
 
-// example views/markdown.jade (as referenced by view parameter above):
+// example views/markdown.pug (as referenced by view parameter above):
 
 extends layout
 
@@ -250,7 +249,7 @@ Bullets:
 ```
 
 ```js
-// file views/guide.jade
+// file views/guide.pug
 
 extends layout
 
@@ -290,7 +289,7 @@ front-matter).
 
 (The MIT License)
 
-Copyright (c) 2014 Nguyen Ly
+Copyright (c) 2014-2024 Nguyen Ly
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
