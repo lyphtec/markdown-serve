@@ -1,155 +1,147 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>markdown-serve Class: MarkdownServer</title>
-
-	<!--[if lt IE 9]>
-	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
-
-	<link type="text/css" rel="stylesheet" href="styles/site.spacelab.css">
-    <style type="text/css">
-        #fork-me
-        {
-            z-index: 9999;
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 149px;
-            height: 149px;
-            display: block;
-            background: transparent url(data:image/png;base64,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) 0 0 no-repeat;
-            text-indent: -9000px;
-        }
-        
-        @media all and (max-width: 900px) {
-            #toc {
-                display: none;
-            }
-        }
-    </style>
+    
+    <meta charset="utf-8">
+    <title>MarkdownServer - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
 
-<div class="container-fluid">
-	<div class="navbar navbar-fixed-top ">
-		<div class="navbar-inner">
-			<a class="brand" href="index.html">markdown-serve</a>
-			<ul class="nav">
-				
-				<li class="dropdown">
-					<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b
-						class="caret"></b></a>
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
 
-					<ul class="dropdown-menu ">
-						
-						<li>
-							<a href="module-markdown-serve.html">markdown-serve</a>
-						</li>
-						
-						<li>
-							<a href="parser.html">markdown-serve/parser</a>
-						</li>
-						
-						<li>
-							<a href="resolver.html">markdown-serve/resolver</a>
-						</li>
-						
+<label for="nav-trigger" class="overlay"></label>
 
-					</ul>
-				</li>
-				
-				<li class="dropdown">
-					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
-						class="caret"></b></a>
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MarkdownFile.html">MarkdownFile</a><ul class='methods'><li data-type='method'><a href="MarkdownFile.html#parseContent">parseContent</a></li><li data-type='method'><a href="MarkdownFile.html#saveChanges">saveChanges</a></li></ul></li><li><a href="MarkdownServer.html">MarkdownServer</a><ul class='methods'><li data-type='method'><a href="MarkdownServer.html#get">get</a></li><li data-type='method'><a href="MarkdownServer.html#save">save</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-markdown-serve.html">markdown-serve</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve.html#.middleware">middleware</a></li></ul></li><li><a href="module-markdown-serve_parser.html">markdown-serve/parser</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_parser.html#.parse">parse</a></li></ul></li><li><a href="module-markdown-serve_resolver.html">markdown-serve/resolver</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_resolver.html">module:markdown-serve/resolver</a></li></ul></li></ul>
+    
+</nav>
 
-					<ul class="dropdown-menu ">
-						
-						<li>
-							<a href="MarkdownFile.html">MarkdownFile</a>
-						</li>
-						
-						<li>
-							<a href="MarkdownServer.html">MarkdownServer</a>
-						</li>
-						
+<div id="main">
+    
+    <h1 class="page-title">MarkdownServer</h1>
+    
 
-					</ul>
-				</li>
-				
-			</ul>
-		</div>
-	</div>
-
-	<div class="row-fluid">
-
-		
-		<div class="span8">
-			
-				<div id="main">
-					
+    
 
 
-	<h1 class="page-title">Class: MarkdownServer</h1>
+
+
 <section>
 
 <header>
-    <h2>
-    MarkdownServer
-    </h2>
+    
+        <h2>
+        
+            MarkdownServer
+        
+        </h2>
+        
     
 </header>
 
 <article>
-    <div class="container-overview">
     
+        <div class="container-overview">
+        
+            
 
     
-        
-<dt>
+
     <h4 class="name" id="MarkdownServer"><span class="type-signature"></span>new MarkdownServer<span class="signature">(rootDirectory)</span><span class="type-signature"></span></h4>
+
     
+
+
+
+
+<dl class="details">
     
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Create an instance of a Markdown files server. Can be instantiated from the module, and is mainly used in custom middleware scenarios.</p>
-    </div>
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Create an instance of a Markdown files server. Can be instantiated from the module, and is mainly used in custom middleware scenarios.</p></li></ul></dd>
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line248">line 248</a>
+    </li></ul></dd>
     
+
     
+
     
+
     
-        <h5>Parameters:</h5>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
         
 
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
+        <th>Type</th>
 
-		<th>Type</th>
+        
+        <th>Attributes</th>
+        
 
-		
+        
 
-		
+        <th class="last">Description</th>
+    </tr>
+    </thead>
 
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
+    <tbody>
+    
 
         <tr>
             
@@ -161,62 +153,6 @@
                 
 <span class="param-type">string</span>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Full path to root directory containing Markdown files to serve</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	<h5 class="subsection-title">Properties:</h5>
-
-	<dl>
-
-<table class="props table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-		<th>Argument</th>
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>rootDirectory</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
 
 
             
@@ -235,7 +171,7 @@
             <td class="description last"><p>Gets or sets the full path to root directory containing Markdown files to server. Set to same as rootDirectory parameter when class is instantiated.</p></td>
         </tr>
 
-	
+    
 
         <tr>
             
@@ -246,6 +182,7 @@
             
                 
 <span class="param-type">Object</span>
+
 
 
             
@@ -266,7 +203,7 @@
             <td class="description last"><p>Gets or sets optional global <a href="https://github.com/chjj/marked">marked</a> module options used for Markdown processing</p></td>
         </tr>
 
-	
+    
 
         <tr>
             
@@ -277,6 +214,7 @@
             
                 
 <span class="param-type">resolverOptions</span>
+
 
 
             
@@ -294,83 +232,111 @@
 
             
 
-            <td class="description last"><p><a href="MarkdownServer.html#resolverOptions">resolverOptions</a>. Gets or sets optional global options used by the resolver to configure default page name and file extension of Markdown files.</p></td>
+            <td class="description last"><p><a href="MarkdownServer.html#~resolverOptions">resolverOptions</a>. Gets or sets optional global options used by the resolver to configure default page name and file extension of Markdown files.</p></td>
         </tr>
 
-	
-	</tbody>
+    
+    </tbody>
 </table>
-</dl>
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
 
 
 
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="server.js.html">server.js</a>,
-				 <a href="server.js.html#sunlight-1-line-251">line 251</a>
-			</li>
-		</ul>
-	</dd>
-	
 
-	
 
-	
 
-	
-</dl>
 
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
     
+    <pre class="prettyprint"><code>var path = require('path'),    mds = require('markdown-serve');// Instantiate a new instance of MarkdownServervar server = new mds.MarkdownServer( path.resolve(__dirname, 'content') );</code></pre>
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
     
 
-    
-
-    
-    
-    
-    
-    
-    
-    
-        <h5>Example</h5>
+<table class="params">
+    <thead>
+    <tr>
         
-    <pre class="sunlight-highlight-javascript">var path = require(&#x27;path&#x27;),    mds = require(&#x27;markdown-serve&#x27;);// Instantiate a new instance of MarkdownServervar server = new mds.MarkdownServer( path.resolve(__dirname, &#x27;content&#x27;) );</pre>
+        <th>Name</th>
+        
 
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>rootDirectory</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Full path to root directory containing Markdown files to serve</p></td>
+        </tr>
 
     
-</dd>
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
 
     
-    </div>
 
     
 
     
-
+    
     
 
-    
+     
 
     
 
@@ -379,48 +345,101 @@
     
         <h3 class="subsection-title">Methods</h3>
 
-        <dl>
+        
             
-<dt>
+
+    
+
     <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(uriPath, callback)</span><span class="type-signature"> &rarr; {<a href="MarkdownFile.html">MarkdownFile</a>}</span></h4>
+
     
+
+
+
+
+<dl class="details">
     
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Resolves &amp; returns <a href="MarkdownFile.html">MarkdownFile</a> for specified URI path.</p>
-    </div>
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Resolves &amp; returns <a href="MarkdownFile.html">MarkdownFile</a> for specified URI path.</p></li></ul></dd>
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line288">line 288</a>
+    </li></ul></dd>
     
+
     
+
     
+
     
-        <h5>Parameters:</h5>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>var server = new mds.MarkdownServer( path.resolve(__dirname, 'content') );server.get('/intro', function(err, result) {   if (err) return err;   // result == MarkdownFile instance   console.log(result.parseContent());   // the parsed HTML result});</code></pre>
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
         
 
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
+        <th>Type</th>
 
-		<th>Type</th>
+        
 
-		
+        
 
-		
+        <th class="last">Description</th>
+    </tr>
+    </thead>
 
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
+    <tbody>
+    
 
         <tr>
             
@@ -431,6 +450,7 @@
             
                 
 <span class="param-type">string</span>
+
 
 
             
@@ -443,7 +463,7 @@
             <td class="description last"><p>Path (relative to root) with leading / (slash) to Markdown file we want to obtain eg. &quot;/subfolder/file&quot;. Note: Do not include &quot;.md&quot; extension.</p></td>
         </tr>
 
-	
+    
 
         <tr>
             
@@ -456,6 +476,7 @@
 <span class="param-type">getCallback</span>
 
 
+
             
             </td>
 
@@ -463,139 +484,147 @@
 
             
 
-            <td class="description last"><p><a href="MarkdownServer.html#getCallback">getCallback</a></p></td>
+            <td class="description last"><p><a href="MarkdownServer.html#~getCallback">getCallback</a></p></td>
         </tr>
 
-	
-	</tbody>
+    
+    </tbody>
 </table>
 
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
 
 
 
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="server.js.html">server.js</a>,
-				 <a href="server.js.html#sunlight-1-line-290">line 290</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
 
 
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
 <span class="param-type"><a href="MarkdownFile.html">MarkdownFile</a></span>
 
 
-	</dd>
+
+    </dd>
 </dl>
 
-
-        
     
-    
-        <h5>Example</h5>
-        
-    <pre class="sunlight-highlight-javascript">var server = new mds.MarkdownServer( path.resolve(__dirname, &#x27;content&#x27;) );server.get(&#x27;/intro&#x27;, function(err, result) {   if (err) return err;   // result == MarkdownFile instance   console.log(result.parseContent());   // the parsed HTML result});</pre>
 
 
-    
-</dd>
 
         
             
-<dt>
-    <h4 class="name" id="save"><span class="type-signature"></span>save<span class="signature">(uriPath, rawContent, <span class="optional">meta</span>, callback)</span><span class="type-signature"> &rarr; {<a href="MarkdownFile.html">MarkdownFile</a>}</span></h4>
+
     
+
+    <h4 class="name" id="save"><span class="type-signature"></span>save<span class="signature">(uriPath, rawContent, meta<span class="signature-attributes">opt, nullable</span>, callback)</span><span class="type-signature"> &rarr; {<a href="MarkdownFile.html">MarkdownFile</a>}</span></h4>
+
     
-</dt>
-<dd>
+
+
+
+
+<dl class="details">
     
-    
-    <div class="description">
-        <p>Saves MarkdownFile for given uriPath</p>
-    </div>
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Saves MarkdownFile for given uriPath</p></li></ul></dd>
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line331">line 331</a>
+    </li></ul></dd>
     
+
     
+
     
+
     
-        <h5>Parameters:</h5>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>var mdContent = '# Heading\n\n' +                'Bullets:\n\n' +                '- one\n' +                '- two\n' +                '- three\nn';// will create any subfolders in hierarchy if it doesn't existserver.save('/subfolder/new', mdContent, { title: 'New file', draft: true }, function(err, result) {   if (err) return err;   // result == MarkdownFile instance   console.log(result.parseContent());});</code></pre>
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
         
 
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
+        <th>Type</th>
 
-		<th>Type</th>
+        
+        <th>Attributes</th>
+        
 
-		
-		<th>Argument</th>
-		
+        
 
-		
+        <th class="last">Description</th>
+    </tr>
+    </thead>
 
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
+    <tbody>
+    
 
         <tr>
             
@@ -606,6 +635,7 @@
             
                 
 <span class="param-type">string</span>
+
 
 
             
@@ -626,7 +656,7 @@
             <td class="description last"><p>Path (relative to root) with leading / (slash) to Markdown file we want to save eg. &quot;/subfolder/file&quot;. Will overwrite existing file or create new file if it doesn't exist. Note: Do not include &quot;.md&quot; extension.</p></td>
         </tr>
 
-	
+    
 
         <tr>
             
@@ -637,6 +667,7 @@
             
                 
 <span class="param-type">string</span>
+
 
 
             
@@ -657,7 +688,7 @@
             <td class="description last"><p>Markdown text content to save</p></td>
         </tr>
 
-	
+    
 
         <tr>
             
@@ -668,6 +699,7 @@
             
                 
 <span class="param-type">Object</span>
+
 
 
             
@@ -692,7 +724,7 @@
             <td class="description last"><p>Optional Javascript object to serialize as YAML front-matter and saved in file header</p></td>
         </tr>
 
-	
+    
 
         <tr>
             
@@ -703,6 +735,7 @@
             
                 
 <span class="param-type">saveCallback</span>
+
 
 
             
@@ -720,145 +753,148 @@
 
             
 
-            <td class="description last"><p><a href="MarkdownServer.html#saveCallback">saveCallback</a></p></td>
+            <td class="description last"><p><a href="MarkdownServer.html#~saveCallback">saveCallback</a></p></td>
         </tr>
 
-	
-	</tbody>
+    
+    </tbody>
 </table>
 
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
 
 
 
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="server.js.html">server.js</a>,
-				 <a href="server.js.html#sunlight-1-line-333">line 333</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
 
 
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
 <span class="param-type"><a href="MarkdownFile.html">MarkdownFile</a></span>
 
 
-	</dd>
+
+    </dd>
 </dl>
 
+    
+
+
 
         
-    
-    
-        <h5>Example</h5>
-        
-    <pre class="sunlight-highlight-javascript">var mdContent = &#x27;# Heading\n\n&#x27; +                &#x27;Bullets:\n\n&#x27; +                &#x27;- one\n&#x27; +                &#x27;- two\n&#x27; +                &#x27;- three\nn&#x27;;// will create any subfolders in hierarchy if it doesn&#x27;t existserver.save(&#x27;/subfolder/new&#x27;, mdContent, { title: &#x27;New file&#x27;, draft: true }, function(err, result) {   if (err) return err;   // result == MarkdownFile instance   console.log(result.parseContent());});</pre>
-
-
-    
-</dd>
-
-        </dl>
     
 
     
         <h3 class="subsection-title">Type Definitions</h3>
 
-        <dl>
+        
                 
-<dt>
-    <h4 class="name" id="getCallback"><span class="type-signature"></span>getCallback<span class="signature">(err, result)</span><span class="type-signature"></span></h4>
+
     
+
+    <h4 class="name" id="~getCallback"><span class="type-signature"></span>getCallback<span class="signature">(err<span class="signature-attributes">nullable</span>, result)</span><span class="type-signature"></span></h4>
+
     
-</dt>
-<dd>
+
+
+
+
+<dl class="details">
     
-    
-    <div class="description">
-        <p><a href="MarkdownServer.html#get">MarkdownServer.get()</a> callback</p>
-    </div>
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p><a href="MarkdownServer.html#get">MarkdownServer.get()</a> callback</p></li></ul></dd>
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line263">line 263</a>
+    </li></ul></dd>
     
+
     
+
     
+
     
-        <h5>Parameters:</h5>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
         
 
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
+        <th>Type</th>
 
-		<th>Type</th>
+        
+        <th>Attributes</th>
+        
 
-		
-		<th>Argument</th>
-		
+        
 
-		
+        <th class="last">Description</th>
+    </tr>
+    </thead>
 
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
+    <tbody>
+    
 
         <tr>
             
@@ -869,6 +905,7 @@
             
                 
 <span class="param-type">Object</span>
+
 
 
             
@@ -891,7 +928,7 @@
             <td class="description last"><p>Errors if any</p></td>
         </tr>
 
-	
+    
 
         <tr>
             
@@ -902,6 +939,7 @@
             
                 
 <span class="param-type"><a href="MarkdownFile.html">MarkdownFile</a></span>
+
 
 
             
@@ -922,124 +960,109 @@
             <td class="description last"></td>
         </tr>
 
-	
-	</tbody>
+    
+    </tbody>
 </table>
 
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
 
 
 
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="server.js.html">server.js</a>,
-				 <a href="server.js.html#sunlight-1-line-265">line 265</a>
-			</li>
-		</ul>
-	</dd>
-	
 
-	
 
-	
 
-	
-</dl>
 
-    
-    
 
-    
 
-    
-    
-    
-    
-    
-    
-    
-</dd>
+
+
+
+
+
+
+
+
 
             
                 
-<dt class="name" id="resolverOptions">
-    <h4>resolverOptions</h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        <p>Options to pass to the resolver indicating default document name and Markdown file extension</p>
-    </div>
-    
-
-    
-        <h5>Type:</h5>
-        <ul>
-            <li>
-                
-<span class="param-type">Object</span>
+<h4 class="name" id="~resolverOptions">resolverOptions</h4>
 
 
-            </li>
-        </ul>
-    
 
-    
+
+
 <dl class="details">
-	
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Options to pass to the resolver indicating default document name and Markdown file extension</p></li></ul></dd>
+    
 
-	<h5 class="subsection-title">Properties:</h5>
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line223">line 223</a>
+    </li></ul></dd>
+    
 
-	<dl>
+    
 
-<table class="props table table-striped">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
+    <tr>
+        
+        <th>Name</th>
+        
 
-		<th>Type</th>
+        <th>Type</th>
 
-		
-		<th>Argument</th>
-		
+        
+        <th>Attributes</th>
+        
 
-		
-		<th>Default</th>
-		
+        
+        <th>Default</th>
+        
 
-		<th class="last">Description</th>
-	</tr>
-	</thead>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
 
-	<tbody>
-	
+    <tbody>
+    
 
         <tr>
             
@@ -1052,6 +1075,7 @@
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -1068,7 +1092,7 @@
             
                 <td class="default">
                 
-                    index
+                    <code>index</code>
                 
                 </td>
             
@@ -1076,7 +1100,7 @@
             <td class="description last"><p>Name of default document</p></td>
         </tr>
 
-	
+    
 
         <tr>
             
@@ -1089,6 +1113,7 @@
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -1105,7 +1130,7 @@
             
                 <td class="default">
                 
-                    md
+                    <code>md</code>
                 
                 </td>
             
@@ -1113,98 +1138,167 @@
             <td class="description last"><p>File extension of Markdown files</p></td>
         </tr>
 
-	
-	</tbody>
-</table>
-</dl>
+    
 
-	
+        <tr>
+            
+                <td class="name"><code>useExtensionInUrl</code></td>
+            
 
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
 
 
 
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="server.js.html">server.js</a>,
-				 <a href="server.js.html#sunlight-1-line-227">line 227</a>
-			</li>
-		</ul>
-	</dd>
-	
+            
+            </td>
 
-	
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
-	
+                
+                </td>
+            
 
-	
-</dl>
+            
+                <td class="default">
+                
+                    <code>false</code>
+                
+                </td>
+            
 
+            <td class="description last"><p>If true, the file extension will not be removed from the url when resolving it</p></td>
+        </tr>
 
     
-</dd>
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description usertext">
+    <p>Options to pass to the resolver indicating default document name and Markdown file extension</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
 
             
                 
-<dt>
-    <h4 class="name" id="saveCallback"><span class="type-signature"></span>saveCallback<span class="signature">(err, result)</span><span class="type-signature"></span></h4>
+
     
+
+    <h4 class="name" id="~saveCallback"><span class="type-signature"></span>saveCallback<span class="signature">(err<span class="signature-attributes">nullable</span>, result)</span><span class="type-signature"></span></h4>
+
     
-</dt>
-<dd>
+
+
+
+
+<dl class="details">
     
-    
-    <div class="description">
-        <p><a href="MarkdownServer.html#save">MarkdownServer.save()</a> callback</p>
-    </div>
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p><a href="MarkdownServer.html#save">MarkdownServer.save()</a> callback</p></li></ul></dd>
     
 
     
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line299">line 299</a>
+    </li></ul></dd>
     
+
     
+
     
+
     
-        <h5>Parameters:</h5>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
         
 
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
+        <th>Type</th>
 
-		<th>Type</th>
+        
+        <th>Attributes</th>
+        
 
-		
-		<th>Argument</th>
-		
+        
 
-		
+        <th class="last">Description</th>
+    </tr>
+    </thead>
 
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
+    <tbody>
+    
 
         <tr>
             
@@ -1215,6 +1309,7 @@
             
                 
 <span class="param-type">Object</span>
+
 
 
             
@@ -1237,7 +1332,7 @@
             <td class="description last"><p>Errors if any, otherwise null</p></td>
         </tr>
 
-	
+    
 
         <tr>
             
@@ -1248,6 +1343,7 @@
             
                 
 <span class="param-type"><a href="MarkdownFile.html">MarkdownFile</a></span>
+
 
 
             
@@ -1268,68 +1364,29 @@
             <td class="description last"><p>Saved file returned as a <a href="MarkdownFile.html">MarkdownFile</a> object</p></td>
         </tr>
 
-	
-	</tbody>
+    
+    </tbody>
 </table>
 
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
 
 
 
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="server.js.html">server.js</a>,
-				 <a href="server.js.html#sunlight-1-line-301">line 301</a>
-			</li>
-		</ul>
-	</dd>
-	
 
-	
 
-	
 
-	
-</dl>
 
-    
-    
 
-    
 
-    
-    
-    
-    
-    
-    
-    
-</dd>
 
-            </dl>
+
+
+
+
+
+
+
+
+            
     
 
     
@@ -1340,114 +1397,21 @@
 
 
 
-				</div>
-
-				<div class="clearfix"></div>
-				<footer>
-					
-					
-		<span class="jsdoc-message">
-		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha9</a>
-		on Thu Oct 9th 2014 using the <a
-			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
-		</span>
-				</footer>
-			</div>
-
-			
-			<div class="span3">
-				<div id="toc"></div>
-			</div>
-			
-			<br clear="both">
-		</div>
-
-	</div>
-	<!--<script src="scripts/sunlight.js"></script>-->
-	<script src="scripts/docstrap.lib.js"></script>
-	<script src="scripts/bootstrap-dropdown.js"></script>
-	<script src="scripts/toc.js"></script>
-
-	<script>
-		$( function () {
-			$( "[id*='$']" ).each( function () {
-				var $this = $( this );
-
-				$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
-			} );
-
-			$( "#toc" ).toc( {
-				anchorName  : function ( i, heading, prefix ) {
-					return $( heading ).attr( "id" ) || ( prefix + i );
-				},
-				selectors   : "h1,h2,h3,h4",
-				showAndHide : false,
-				scrollTo    : "100px"
-			} );
-
-			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
-			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
-			$( '.dropdown-toggle' ).dropdown();
-//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
-
-			$( ".tutorial-section pre, .readme-section pre" ).each( function () {
-				var $this = $( this );
-
-				var example = $this.find( "code" );
-				exampleText = example.html();
-				var lang = /{@lang (.*?)}/.exec( exampleText );
-				if ( lang && lang[1] ) {
-					exampleText = exampleText.replace( lang[0], "" );
-					example.html( exampleText );
-					lang = lang[1];
-				} else {
-					lang = "javascript";
-				}
-
-				if ( lang ) {
-
-					$this
-						.addClass( "sunlight-highlight-" + lang )
-						.addClass( "linenums" )
-						.html( example.html() );
-
-				}
-			} );
-
-			Sunlight.highlightAll( {
-				lineNumbers : true,
-				showMenu : true,
-				enableDoclinks : true
-			} );
-		} );
-	 </script>
-
-
-
-	<!--Navigation and Symbol Display-->
-	
-
-
-	<!--Google Analytics-->
-	
-	<script>
-		(function ( i, s, o, g, r, a, m ) {
-			i['GoogleAnalyticsObject'] = r;
-			i[r] = i[r] || function () {
-				(i[r].q = i[r].q || []).push( arguments )
-			}, i[r].l = 1 * new Date();
-			a = s.createElement( o ),
-				m = s.getElementsByTagName( o )[0];
-			a.async = 1;
-			a.src = g;
-			m.parentNode.insertBefore( a, m )
-		})( window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga' );
-
-		ga( 'create', 'UA-2048899-10', 'auto' );
-		ga( 'send', 'pageview' );
-	</script>
-	
-
     
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Nov 26 2024 23:59:53 GMT+1100 (Australian Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
 </body>
 </html>

@@ -1,105 +1,51 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>markdown-serve Index</title>
-
-	<!--[if lt IE 9]>
-	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
-
-	<link type="text/css" rel="stylesheet" href="styles/site.spacelab.css">
-    <style type="text/css">
-        #fork-me
-        {
-            z-index: 9999;
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 149px;
-            height: 149px;
-            display: block;
-            background: transparent url(data:image/png;base64,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) 0 0 no-repeat;
-            text-indent: -9000px;
-        }
-        
-        @media all and (max-width: 900px) {
-            #toc {
-                display: none;
-            }
-        }
-    </style>
+    
+    <meta charset="utf-8">
+    <title>Home - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
 
-<a href="https://github.com/lyphtec/markdown-serve" id="fork-me">Fork me on GitHub</a>
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
 
-<div class="container-fluid">
-	<div class="navbar navbar-fixed-top ">
-		<div class="navbar-inner">
-			<a class="brand" href="index.html">markdown-serve</a>
-			<ul class="nav">
-				
-				<li class="dropdown">
-					<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b
-						class="caret"></b></a>
+<label for="nav-trigger" class="overlay"></label>
 
-					<ul class="dropdown-menu ">
-						
-						<li>
-							<a href="module-markdown-serve.html">markdown-serve</a>
-						</li>
-						
-						<li>
-							<a href="parser.html">markdown-serve/parser</a>
-						</li>
-						
-						<li>
-							<a href="resolver.html">markdown-serve/resolver</a>
-						</li>
-						
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MarkdownFile.html">MarkdownFile</a><ul class='methods'><li data-type='method'><a href="MarkdownFile.html#parseContent">parseContent</a></li><li data-type='method'><a href="MarkdownFile.html#saveChanges">saveChanges</a></li></ul></li><li><a href="MarkdownServer.html">MarkdownServer</a><ul class='methods'><li data-type='method'><a href="MarkdownServer.html#get">get</a></li><li data-type='method'><a href="MarkdownServer.html#save">save</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-markdown-serve.html">markdown-serve</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve.html#.middleware">middleware</a></li></ul></li><li><a href="module-markdown-serve_parser.html">markdown-serve/parser</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_parser.html#.parse">parse</a></li></ul></li><li><a href="module-markdown-serve_resolver.html">markdown-serve/resolver</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_resolver.html">module:markdown-serve/resolver</a></li></ul></li></ul>
+    
+</nav>
 
-					</ul>
-				</li>
-				
-				<li class="dropdown">
-					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
-						class="caret"></b></a>
+<div id="main">
+    
 
-					<ul class="dropdown-menu ">
-						
-						<li>
-							<a href="MarkdownFile.html">MarkdownFile</a>
-						</li>
-						
-						<li>
-							<a href="MarkdownServer.html">MarkdownServer</a>
-						</li>
-						
-
-					</ul>
-				</li>
-				
-			</ul>
-		</div>
-	</div>
-
-	<div class="row-fluid">
-
-		
-		<div class="span8">
-			
-				<div id="main">
-					
+    
 
 
-	
-	<span class="page-title">Index</span>
-	
-	
+
+    
+
+
+    <section class="package">
+        <h3> </h3>		
+    </section>
 
 
 
@@ -109,59 +55,68 @@
 
 
 
+    
 
 
 
-	
-	
-
-
-
-
-
-    <section class="readme-section">
-        <article><h1>markdown-serve</h1><p>Simple Markdown files server that can be used as an Express middleware or standalone.</p>
-<p><a href="https://www.npmjs.org/package/markdown-serve"><img src="https://img.shields.io/npm/v/markdown-serve.svg?style=flat" alt="NPM Version"></a>
-<a href="https://travis-ci.org/lyphtec/markdown-serve"><img src="https://img.shields.io/travis/lyphtec/markdown-serve.svg?style=flat" alt="Build Status"></a></p>
-<h2>Overview</h2><p>The idea is simple.  You specify a folder containing Markdown text files you want to make available.  The module will host these files and
+    <section class="readme usertext">
+        <article><h1>markdown-serve</h1>
+<p><a href="https://gitter.im/lyphtec/markdown-serve?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter"></a></p>
+<p>Simple Markdown files server that can be used as an Express middleware or standalone.</p>
+<p><a href="https://www.npmjs.org/package/markdown-serve"><img src="https://img.shields.io/npm/v/markdown-serve.svg?style=flat" alt="NPM Version"></a></p>
+<h2>Overview</h2>
+<p>The idea is simple.  You specify a folder containing Markdown text files you want to make available.  The module will host these files and<br>
 provide URI-like navigation to specific files based on simple routing rules.</p>
 <p>For example, assume you have the following folder containing some Markdown files:</p>
-<pre class="prettyprint source"><code>/home/john/guide
+<pre><code>/home/john/guide
 |---- index.md
 |---- about.md
 |---- walk-through/
             |---- index.md 
             |---- act-1-town-area.md
-            |---- act-1-dungeon.md</code></pre><p>By specifying <code>/home/john/guide</code> as the root directory, the module can resolve the following paths to the relevant file:</p>
-<pre class="prettyprint source"><code>/                             ---> /home/john/guide/index.md  (this is the &quot;root&quot; path)
-/about                        ---> /home/john/guide/about.md
-/walk-through/                ---> /home/john/guide/walk-through/index.md (note the trailing slash in the path)
-/walk-through/act-1-dungeon   ---> /home/john/guide/walk-through/act-1-dungeon.md
+            |---- act-1-dungeon.md
+</code></pre>
+<p>By specifying <code>/home/john/guide</code> as the root directory, the module can resolve the following paths to the relevant file:</p>
+<pre><code>/                             ---&gt; /home/john/guide/index.md  (this is the &quot;root&quot; path)
+/about                        ---&gt; /home/john/guide/about.md
+/walk-through/                ---&gt; /home/john/guide/walk-through/index.md (note the trailing slash in the path)
+/walk-through/act-1-dungeon   ---&gt; /home/john/guide/walk-through/act-1-dungeon.md
 
-Note that you don't need to specify the file extension (.md) in the path as this is already assumed.</code></pre><p>The path <a href="https://github.com/lyphtec/markdown-serve/blob/master/lib/resolver.js">resolver</a> is smart enough to handle spaces in sub folder /
-file names. So, given this file <code>/home/john/guide/&quot;cheat codes&quot;/&quot;open portal.md&quot;</code>  (Quotes indicated here are actually not part of the
+Note that you don't need to specify the file extension (.md) in the path as this is already assumed.
+</code></pre>
+<p>The path <a href="https://github.com/lyphtec/markdown-serve/blob/master/lib/resolver.js">resolver</a> is smart enough to handle spaces in sub folder /<br>
+file names. So, given this file <code>/home/john/guide/&quot;cheat codes&quot;/&quot;open portal.md&quot;</code>  (Quotes indicated here are actually not part of the<br>
 folder / file name, but just to highlight that they have spaces in the name).  The following paths all resolve to the same file:</p>
-<pre class="prettyprint source"><code>/cheat-codes/open-portal        (auto sluggification)
+<pre><code>/cheat-codes/open-portal        (auto sluggification)
 /cheat%20codes/open%20portal    (URL encoding)
-/cheat codes/open portal</code></pre><p>Note the auto &quot;sluggification&quot; - i.e. replacing spaces with dashes, allowing you to have clean URI navigation to the file.</p>
-<p>The Markdown file can contain optional YAML front-matter (from start of file to first line starting with 3 dashes &quot;---&quot;).  This is
-compatible with files used in <a href="http://jekyllrb.com">Jekyll</a>, <a href="http://octopress.org">Octopress</a>, &amp; <a href="http://hexo.io">Hexo</a>.  Any arbitrary
-valid YAML tag can be specified here and will be available as a JavaScript object at the <code>markdownFile.meta</code> property.  You can use this to
+/cheat codes/open portal
+</code></pre>
+<p>Note the auto &quot;sluggification&quot; - i.e. replacing spaces with dashes, allowing you to have clean URI navigation to the file.</p>
+<p>The Markdown file can contain optional YAML front-matter (from start of file to first line starting with 3 dashes &quot;---&quot;).  This is<br>
+compatible with files used in <a href="http://jekyllrb.com">Jekyll</a>, <a href="http://octopress.org">Octopress</a>, &amp; <a href="http://hexo.io">Hexo</a>.  Any arbitrary<br>
+valid YAML tag can be specified here and will be available as a JavaScript object at the <code>markdownFile.meta</code> property.  You can use this to<br>
 specify things such as the title of the file, or whether it is published.</p>
-<h3>Usage Scenario</h3><p>When would you use this module or how is it different to Jekyll, Octopress, or Hexo?</p>
-<p>In principle, the Markdown source files used by all of these frameworks and <em>markdown-serve</em> are cross compatible. However, these frameworks are
-static site generators. A process has to be run each time a source file is updated, new files added, or the site requires style changes to re-create the updated site. <em>markdown-serve</em> on the other hand brings together
-the flexiblity of having static source Markdown content files, but the serving of these files are dynamic as they are hosted in a Node
-Express server.  Source content can be updated, new files added etc, and the changes will be instantly available on the website without requiring
+<h3>Usage Scenario</h3>
+<p>When would you use this module or how is it different to Jekyll, Octopress, or Hexo?</p>
+<p>In principle, the Markdown source files used by all of these frameworks and <em>markdown-serve</em> are cross compatible. However, these frameworks are<br>
+static site generators. A process has to be run each time a source file is updated, new files added, or the site requires style changes to re-create the updated site. <em>markdown-serve</em> on the other hand brings together<br>
+the flexiblity of having static source Markdown content files, but the serving of these files are dynamic as they are hosted in a Node<br>
+Express server.  Source content can be updated, new files added etc, and the changes will be instantly available on the website without requiring<br>
 any re-generation process to run.</p>
-<p>It is ideally suited for any small to medium websites where a full blown CMS is not required.  It can be used to build mini CMS like sites
+<p>It is ideally suited for any small to medium websites where a full blown CMS is not required.  It can be used to build mini CMS like sites<br>
 (ala WordPress), blogs, or integrated into a larger Node Express application.</p>
-<p>For example, with a personal blog website, if you have full control over the hosting environment, you can use cloud storage services like DropBox to contain your source Markdown content files.  On the hosting server,
-you would have the DropBox daemon running to sync with your content folder, and serve up the content with <em>markdown-serve</em> running in an
-Express app. Then, regardless of which platform or device you are on, you can very easily update your website by just editing files in
+<p>For example, with a personal blog website, if you have full control over the hosting environment, you can use cloud storage services like DropBox to contain your source Markdown content files.  On the hosting server,<br>
+you would have the DropBox daemon running to sync with your content folder, and serve up the content with <em>markdown-serve</em> running in an<br>
+Express app. Then, regardless of which platform or device you are on, you can very easily update your website by just editing files in<br>
 DropBox!</p>
-<h2>Install</h2><pre class="prettyprint source"><code>$ npm install markdown-serve</code></pre><h2>API</h2><p>See <a href="http://lyphtec.github.io/markdown-serve">API documentation</a></p>
-<h2>Usage</h2><h3>As a simple middleware</h3><pre class="prettyprint source lang-js"><code>// example app.js
+<h2>Install</h2>
+<pre><code>$ npm install markdown-serve
+</code></pre>
+<h2>API</h2>
+<p>See <a href="https://lyphtec.github.io/markdown-serve">API documentation</a></p>
+<h2>Usage</h2>
+<h3>As a simple middleware</h3>
+<pre class="prettyprint source lang-js"><code>// example app.js
 
 var express = require('express'),
     mds = require('markdown-serve'),
@@ -171,7 +126,7 @@ var express = require('express'),
 var app = express();
 
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 app.use(mds.middleware({ 
     rootDirectory: path.resolve(__dirname, 'guides'),
@@ -179,17 +134,19 @@ app.use(mds.middleware({
 }));
 
 
-// example views/markdown.jade (as referenced by view parameter above):
+// example views/markdown.pug (as referenced by view parameter above):
 
 extends layout
 
 block content
     h1= markdownFile.meta.title
     #content
-        != markdownFile.parseContent()</code></pre><p>If no view and handler are specified, the module will return a JSON response of the <code>MarkdownFile</code> object with HTML content available as the
+        != markdownFile.parseContent()
+</code></pre>
+<p>If no view and handler are specified, the module will return a JSON response of the <code>MarkdownFile</code> object with HTML content available as the<br>
 <code>markdownFile.parsedContent</code> property.</p>
-<p>The <code>preParse</code> option can also be set when using a view to make the HTML content available as the <code>markdownFile.parsedContent</code>
-property. This is to support some view engines like <a href="https://github.com/donpark/hbs">hbs</a>, as it doesn't support calling the
+<p>The <code>preParse</code> option can also be set when using a view to make the HTML content available as the <code>markdownFile.parsedContent</code><br>
+property. This is to support some view engines like <a href="https://github.com/donpark/hbs">hbs</a>, as it doesn't support calling the<br>
 <code>parseContent()</code> method in the view.</p>
 <pre class="prettyprint source lang-js"><code>// pre-parse for use with hbs view engine
 app.set('view engine', 'hbs');
@@ -210,7 +167,9 @@ app.use(mds.middleware({
         &lt;hr />
         &lt;strong>Created:&lt;/strong> {{markdownFile.created}}
     &lt;/footer>
-&lt;/div></code></pre><p>The <code>preParse</code> option can also be specified as a function. In this case, the return object from the function will be passed directly as a
+&lt;/div>
+</code></pre>
+<p>The <code>preParse</code> option can also be specified as a function. In this case, the return object from the function will be passed directly as a<br>
 view model to the view.</p>
 <pre class="prettyprint source lang-js"><code>// preParse option specified as a function
 app.use(mds.middleware({
@@ -231,7 +190,9 @@ app.use(mds.middleware({
        &lt;hr />
        &lt;strong>Created:&lt;/strong> {{created}}
    &lt;/footer>
-&lt;/div></code></pre><p>If you want full customization of the middleware behaviour, specify a <code>handler</code> function. Note that to use this option, do not specify the
+&lt;/div>
+</code></pre>
+<p>If you want full customization of the middleware behaviour, specify a <code>handler</code> function. Note that to use this option, do not specify the<br>
 <code>view</code> option as that will take precedence.</p>
 <pre class="prettyprint source lang-js"><code>// custom handler
 app.use(mds.middleware({
@@ -247,14 +208,19 @@ app.use(mds.middleware({
 
        res.render('markdown', { title: markdownFile.meta.title, content: markdownFile.parseContent() });
    }
-}));</code></pre><h3>As a custom middleware</h3><p>For ultimate control, define your own middleware handler.</p>
+}));
+</code></pre>
+<h3>As a custom middleware</h3>
+<p>For ultimate control, define your own middleware handler.</p>
 <pre class="prettyprint source lang-js"><code>// example app.js
 var express = require('express'),
     markdown = require('./routes/markdown');
 
 var app = express();
 
-app.get('*', markdown.handler);</code></pre><pre class="prettyprint source lang-js"><code>// file routes/markdown.js
+app.get('*', markdown.handler);
+</code></pre>
+<pre class="prettyprint source lang-js"><code>// file routes/markdown.js
 
 var server = require('markdown-serve');
 
@@ -282,7 +248,9 @@ exports.handler = function(req, res, next) {
             next();
         }
     });
-}</code></pre><p>Sample markdown file at <code>guides/test.md</code>:</p>
+}
+</code></pre>
+<p>Sample markdown file at <code>guides/test.md</code>:</p>
 <pre class="prettyprint source lang-markdown"><code>title: My awesome guide
 draft: false
 published: 2014-04-01 12:40:00
@@ -297,7 +265,9 @@ Bullets:
 
 - One
 - Two
-- Three</code></pre><pre class="prettyprint source lang-js"><code>// file views/guide.jade
+- Three
+</code></pre>
+<pre class="prettyprint source lang-js"><code>// file views/guide.pug
 
 extends layout
 
@@ -307,41 +277,48 @@ block content
     p.
         Published: #{markdownFile.meta.published}
         Created: #{markdownFile.created}
-
-    #content!= markdownFile.parseContent()</code></pre><p>Note in the above example, the Markdown file can dictate which view is used to render the content (via the &quot;layout&quot; variable in the
+    
+    #content!= markdownFile.parseContent()
+</code></pre>
+<p>Note in the above example, the Markdown file can dictate which view is used to render the content (via the &quot;layout&quot; variable in the<br>
 front-matter).</p>
-<h2>More Samples</h2><ul>
+<h2>More Samples</h2>
+<ul>
 <li><a href="https://github.com/lyphtec/markdown-serve-examples">See here</a></li>
 </ul>
-<h2>Best Practices</h2><ul>
+<h2>Best Practices</h2>
+<ul>
 <li>Stick with all lowercase sub-folder / file names. On case-sensitive OS'es (Linux/Mac) - the resolver uses exact folder / file name match with '.md' as file extension for Markdown files.</li>
 <li>Avoid spaces in sub-folder / file names.  The resolver can find the file quicker if it's an exact match.</li>
 <li>Be aware of trailing slashes in the path. This is treated as a sub-folder and actually looks for a file named &quot;index.md&quot; contained within it.</li>
 </ul>
-<h2>Similar Projects</h2><ul>
+<h2>Similar Projects</h2>
+<ul>
 <li><a href="http://hexo.io">Hexo</a> - Blog framework / static site generator</li>
 <li><a href="https://github.com/JamesHight/express-markdown">express-markdown</a> - Very simple Express middleware for rendering Markdown files</li>
 </ul>
-<h2>Useful Resources</h2><ul>
+<h2>Useful Resources</h2>
+<ul>
 <li><a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">Markdown cheatsheet</a></li>
 </ul>
-<h2>License</h2><p>(The MIT License)</p>
-<p>Copyright (c) 2014 Nguyen Ly</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
+<h2>License</h2>
+<p>(The MIT License)</p>
+<p>Copyright (c) 2014-2024 Nguyen Ly</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining<br>
+a copy of this software and associated documentation files (the<br>
+'Software'), to deal in the Software without restriction, including<br>
+without limitation the rights to use, copy, modify, merge, publish,<br>
+distribute, sublicense, and/or sell copies of the Software, and to<br>
+permit persons to whom the Software is furnished to do so, subject to<br>
 the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be
+<p>The above copyright notice and this permission notice shall be<br>
 included in all copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+<p>THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,<br>
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF<br>
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.<br>
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY<br>
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,<br>
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE<br>
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p></article>
     </section>
 
@@ -350,138 +327,21 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p></article>
 
 
 
-
-				</div>
-
-				<div class="clearfix"></div>
-				<footer>
-					
-					
-		<span class="jsdoc-message">
-		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha9</a>
-		on Thu Oct 9th 2014 using the <a
-			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
-		</span>
-				</footer>
-			</div>
-
-			
-			<div class="span3">
-				<div id="toc"></div>
-			</div>
-			
-			<br clear="both">
-		</div>
-
-	</div>
-	<!--<script src="scripts/sunlight.js"></script>-->
-	<script src="scripts/docstrap.lib.js"></script>
-	<script src="scripts/bootstrap-dropdown.js"></script>
-	<script src="scripts/toc.js"></script>
-
-	<script>
-		$( function () {
-			$( "[id*='$']" ).each( function () {
-				var $this = $( this );
-
-				$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
-			} );
-
-			$( "#toc" ).toc( {
-				anchorName  : function ( i, heading, prefix ) {
-					return $( heading ).attr( "id" ) || ( prefix + i );
-				},
-				selectors   : "h1,h2,h3,h4",
-				showAndHide : false,
-				scrollTo    : "100px"
-			} );
-
-			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
-			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
-			$( '.dropdown-toggle' ).dropdown();
-//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
-
-			$( ".tutorial-section pre, .readme-section pre" ).each( function () {
-				var $this = $( this );
-
-				var example = $this.find( "code" );
-				exampleText = example.html();
-				var lang = /{@lang (.*?)}/.exec( exampleText );
-				if ( lang && lang[1] ) {
-					exampleText = exampleText.replace( lang[0], "" );
-					example.html( exampleText );
-					lang = lang[1];
-				} else {
-					lang = "javascript";
-				}
-
-				if ( lang ) {
-
-					$this
-						.addClass( "sunlight-highlight-" + lang )
-						.addClass( "linenums" )
-						.html( example.html() );
-
-				}
-			} );
-
-			Sunlight.highlightAll( {
-				lineNumbers : true,
-				showMenu : true,
-				enableDoclinks : true
-			} );
-		} );
-	 </script>
-
-
-
-	<!--Navigation and Symbol Display-->
-	
-
-
-	<!--Google Analytics-->
-	
-	<script>
-		(function ( i, s, o, g, r, a, m ) {
-			i['GoogleAnalyticsObject'] = r;
-			i[r] = i[r] || function () {
-				(i[r].q = i[r].q || []).push( arguments )
-			}, i[r].l = 1 * new Date();
-			a = s.createElement( o ),
-				m = s.getElementsByTagName( o )[0];
-			a.async = 1;
-			a.src = g;
-			m.parentNode.insertBefore( a, m )
-		})( window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga' );
-
-		ga( 'create', 'UA-2048899-10', 'auto' );
-		ga( 'send', 'pageview' );
-	</script>
-	
-
     
-    <!-- Disqus on index page -->
-    <div class="clearfix">&nbsp;</div>
     
-    <div class="container-fluid">
-        <div class="row-fluid">
-            <div class="span12">                
-                <div id="disqus_thread"></div>
-                <script type="text/javascript">
-                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-                    var disqus_shortname = 'markdown-serve'; // required: replace example with your forum shortname
+</div>
 
-                    /* * * DON'T EDIT BELOW THIS LINE * * */
-                    (function() {
-                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                    })();
-                </script>
-                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>    
-            </div>
-        </div>
-    </div>
-    
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Tue Nov 26 2024 23:59:52 GMT+1100 (Australian Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
 </body>
 </html>
