@@ -151,6 +151,58 @@ describe('MarkdownServer', function() {
             });
         });
 
+        describe('useExtensionInUrl', function() {
+            // writes go into fixture/new/, which is gitignored & removed below
+            var dir = path.resolve(__dirname, 'fixture/new');
+
+            var e = new server.MarkdownServer(ROOT_DIR);
+            e.resolverOptions = { defaultPageName: 'index', fileExtension: 'md', useExtensionInUrl: true };
+
+            beforeEach(function(done) {
+                rimraf(dir, function(err) {
+                    done();
+                });
+            });
+
+            after(function(done) {
+                rimraf(dir, function(err) {
+                    done();
+                });
+            });
+
+            it('should not double the extension when the path carries it', function(done) {
+                e.save('/new/with-ext.md', rawContent, function(err, result) {
+                    should.not.exist(err);
+                    result._file.should.equal( path.resolve(ROOT_DIR, 'new/with-ext.md') );
+                    fs.existsSync( path.resolve(ROOT_DIR, 'new/with-ext.md.md') ).should.be.false;
+
+                    done();
+                });
+            });
+
+            it('should be readable back through get()', function(done) {
+                e.save('/new/round-trip.md', rawContent, function(err, saved) {
+                    should.not.exist(err);
+
+                    e.get('/new/round-trip.md', function(err, result) {
+                        should.not.exist(err);
+                        result.parseContent().should.have.string('<li>duos</li>');
+
+                        done();
+                    });
+                });
+            });
+
+            it('should still add the extension to a synthesised default page name', function(done) {
+                e.save('/new/blah/', rawContent, function(err, result) {
+                    should.not.exist(err);
+                    result._file.should.equal( path.resolve(ROOT_DIR, 'new/blah/index.md') );
+
+                    done();
+                });
+            });
+        });
+
         describe('update', function() {
             var file = path.resolve(__dirname, 'fixture/server-update.md');
 

@@ -50,7 +50,9 @@ Three layers, each a separate module, called in sequence:
 
 ### resolverOptions
 
-`defaultPageName` (default `index`), `fileExtension` (default `md`, leading dot optional), and `useExtensionInUrl` (default `false`; when true the resolver appends no extension, so the URL must carry it). Note that the segment-walk fallback in the resolver hardcodes `.md` rather than honouring `fileExtension` — custom extensions only resolve via the earlier direct-match branches.
+`defaultPageName` (default `index`), `fileExtension` (default `md`, leading dot optional), and `useExtensionInUrl` (default `false`; when true the URL must carry the extension, so none is appended to it).
+
+Two extensions are in play and conflating them is the bug this option keeps inviting: `ext` is what the file has on disk and is always appended to a `defaultPageName` the resolver synthesises, while `pathExt` is what gets appended to a caller-supplied path and is empty under `useExtensionInUrl`. All four resolution branches — including the segment walk — use `pathExt` for the final segment. That's also why terminal candidates use `isFile()` rather than `exists()`: with no extension to append, `/sub` would otherwise match the `sub` *directory*, since `fs.existsSync` is true for directories.
 
 ## Tests
 
