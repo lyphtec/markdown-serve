@@ -81,6 +81,26 @@ describe('parser', function() {
             });
         });
 
+        it('should not treat plain prose before a "---" rule as front matter', function(done) {
+            // YAML parses ordinary prose as a string -- if that counts as front matter the
+            // first section of the file is silently discarded
+            var file = path.resolve(__dirname, 'fixture/prose-then-rule.md');
+
+            parser.parse(file, null, function(err, result) {
+                should.not.exist(err);
+                should.not.exist(result.meta);
+                result.rawContent.should.contain('Just a normal opening paragraph');
+                result.rawContent.should.contain('# Section two');
+
+                result.parseContent(function(err, content) {
+                    content.should.contain('Just a normal opening paragraph');
+                    content.should.contain('<li>Moe</li>');
+
+                    done();
+                });
+            });
+        });
+
         it('should succeed with markedOptions', function(done) {
             var file = path.resolve(__dirname, 'fixture/test.md');
 
@@ -109,6 +129,36 @@ describe('parser', function() {
     });    
 
     describe('MarkdownFile', function() {
+
+        describe('parseContent()', function() {
+            var file = path.resolve(__dirname, 'fixture/empty-file.md');
+
+            it('should return empty string for an empty file when called synchronously', function(done) {
+                // called with no callback this must not throw -- lib/server.js uses the synchronous
+                // form from inside an async callback, where a throw would take the process down
+                parser.parse(file, null, function(err, result) {
+                    should.not.exist(err);
+
+                    var content = result.parseContent();
+                    content.should.equal('');
+
+                    done();
+                });
+            });
+
+            it('should error for an empty file when called with a callback', function(done) {
+                parser.parse(file, null, function(err, result) {
+                    should.not.exist(err);
+
+                    result.parseContent(function(err, content) {
+                        should.exist(err);
+
+                        done();
+                    });
+                });
+            });
+        });
+
         describe('saveChanges()', function() {
 
             var file = path.resolve(__dirname, 'fixture/new.md');

@@ -9,6 +9,7 @@ test/
 coverage/
 .nyc_output/
 .vscode/
+.jshintrc
 
 # Mac OS X
 .DS_Store
@@ -19,6 +20,9 @@ npm-debug.log
 
 # Git
 .git*
+
+# Agent / editor instructions - repo guidance, not part of the published package
+CLAUDE.md
 
 # Windows junk
 Thumbs.db

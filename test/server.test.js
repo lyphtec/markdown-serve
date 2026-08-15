@@ -32,6 +32,16 @@ describe('MarkdownServer', function() {
             });
         });
 
+        it('should still expose _file & stats when used directly', function(done) {
+            // only the middleware strips these -- the direct API keeps them
+            s.get('/test', function(err, result) {
+                should.exist(result._file);
+                should.exist(result.stats);
+
+                done();
+            });
+        });
+
     });
 
     describe('save()', function() {
@@ -112,6 +122,86 @@ describe('MarkdownServer', function() {
 
         });   // new file
 
+
+        describe('directory traversal', function() {
+            var escaped = path.resolve(__dirname, 'escaped-by-traversal.md');
+
+            after(function(done) {
+                fs.unlink(escaped, function(err) {
+                    done();
+                });
+            });
+
+            it('should not write outside rootDirectory', function(done) {
+                s.save('/../escaped-by-traversal', rawContent, function(err, result) {
+                    should.exist(err);
+                    fs.existsSync(escaped).should.be.false;
+
+                    done();
+                });
+            });
+
+            it('should not write outside rootDirectory via a sub-folder path', function(done) {
+                s.save('/sub/../../escaped-by-traversal', rawContent, function(err, result) {
+                    should.exist(err);
+                    fs.existsSync(escaped).should.be.false;
+
+                    done();
+                });
+            });
+        });
+
+        describe('useExtensionInUrl', function() {
+            // writes go into fixture/new/, which is gitignored & removed below
+            var dir = path.resolve(__dirname, 'fixture/new');
+
+            var e = new server.MarkdownServer(ROOT_DIR);
+            e.resolverOptions = { defaultPageName: 'index', fileExtension: 'md', useExtensionInUrl: true };
+
+            beforeEach(function(done) {
+                rimraf(dir, function(err) {
+                    done();
+                });
+            });
+
+            after(function(done) {
+                rimraf(dir, function(err) {
+                    done();
+                });
+            });
+
+            it('should not double the extension when the path carries it', function(done) {
+                e.save('/new/with-ext.md', rawContent, function(err, result) {
+                    should.not.exist(err);
+                    result._file.should.equal( path.resolve(ROOT_DIR, 'new/with-ext.md') );
+                    fs.existsSync( path.resolve(ROOT_DIR, 'new/with-ext.md.md') ).should.be.false;
+
+                    done();
+                });
+            });
+
+            it('should be readable back through get()', function(done) {
+                e.save('/new/round-trip.md', rawContent, function(err, saved) {
+                    should.not.exist(err);
+
+                    e.get('/new/round-trip.md', function(err, result) {
+                        should.not.exist(err);
+                        result.parseContent().should.have.string('<li>duos</li>');
+
+                        done();
+                    });
+                });
+            });
+
+            it('should still add the extension to a synthesised default page name', function(done) {
+                e.save('/new/blah/', rawContent, function(err, result) {
+                    should.not.exist(err);
+                    result._file.should.equal( path.resolve(ROOT_DIR, 'new/blah/index.md') );
+
+                    done();
+                });
+            });
+        });
 
         describe('update', function() {
             var file = path.resolve(__dirname, 'fixture/server-update.md');
@@ -305,6 +395,118 @@ describe('middleware()', function() {
           return done();
       });
   });
+
+    it('should next() rather than serve a file outside rootDirectory', function(done) {
+        var app = express();
+
+        app.use(server.middleware({ rootDirectory: ROOT_DIR }));
+
+        // req.path keeps the escapes, so the decode -- and the traversal -- happens in the resolver
+        request(app)
+            .get('/%2e%2e%2f%2e%2e%2fREADME')
+            .expect(404, done);
+    });
+
+    it('should not expose fs.Stats in the JSON response', function(done) {
+        var app = express();
+
+        app.use(server.middleware({ rootDirectory: ROOT_DIR }));
+
+        request(app)
+            .get('/test')
+            .expect(200)
+            .end(function(err, res) {
+                if (err) return done(err);
+
+                var result = res.body;
+
+                // fs.Stats carries uid / gid / ino / dev / mode
+                should.not.exist(result.stats);
+
+                // ...but the useful values must survive
+                should.exist(result.created);
+                should.exist(result.modified);
+                should.exist(result.size);
+
+                done();
+            });
+    });
+
+    it('should not expose fs.Stats to a handler', function(done) {
+        var app = express();
+
+        app.set('views', path.join(__dirname, 'views'));
+        app.set('view engine', 'pug');
+
+        app.use(server.middleware({
+            rootDirectory: ROOT_DIR,
+            handler: function(markdownFile, req, res, next) {
+                should.not.exist(markdownFile.stats);
+                should.exist(markdownFile.modified);
+
+                res.render('markdown', { markdownFile: markdownFile });
+            }
+        }));
+
+        request(app)
+            .get('/test')
+            .expect(200, done);
+    });
+
+    it('should next() rather than error on a malformed percent-escape', function(done) {
+        var app = express();
+
+        app.use(server.middleware({ rootDirectory: ROOT_DIR }));
+
+        // decodeURIComponent throws on this -- must be a 404, not a 500
+        request(app)
+            .get('/foo%')
+            .expect(404, done);
+    });
+
+    it('should not crash on an empty markdown file', function(done) {
+        var app = express();
+
+        app.use(server.middleware({ rootDirectory: ROOT_DIR }));
+
+        request(app)
+            .get('/empty-file')
+            .expect(200)
+            .end(function(err, res) {
+                if (err) return done(err);
+
+                res.body.parsedContent.should.equal('');
+
+                done();
+            });
+    });
+
+    it('should not send errors to a logger belonging to another middleware instance', function(done) {
+        var otherLogger = {
+            called: false,
+            log: function() {
+                this.called = true;
+            }
+        };
+
+        // instance configured with a logger...
+        server.middleware({ rootDirectory: ROOT_DIR, logger: otherLogger });
+
+        // ...must not capture the errors of this separate instance, which has no logger
+        var app = express();
+        app.use(server.middleware({ rootDirectory: ROOT_DIR }));
+
+        request(app)
+            .get('/foo-bar')
+            .expect(404)
+            .end(function(err, res) {
+                if (err) return done(err);
+
+                otherLogger.called.should.be.false;
+
+                done();
+            });
+    });
 
     it('should next() if method is POST', function(done) {
         var app = express();
