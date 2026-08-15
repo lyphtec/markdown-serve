@@ -109,4 +109,61 @@ describe('resolver', function() {
         should.exist(file);
         file.should.equal(path.resolve(rootDir, 'sub/index.md'));
     });
+
+    describe('directory traversal', function() {
+
+        // "../../README.md" exists (repo root), so these would resolve without a containment check
+        it('should not resolve "/../../README" outside rootDir', function() {
+            should.not.exist(resolver('/../../README', rootDir));
+        });
+
+        it('should not resolve URL encoded "/..%2f..%2fREADME" outside rootDir', function() {
+            should.not.exist(resolver('/..%2f..%2fREADME', rootDir));
+        });
+
+        it('should not resolve fully encoded "/%2e%2e%2f%2e%2e%2fREADME" outside rootDir', function() {
+            should.not.exist(resolver('/%2e%2e%2f%2e%2e%2fREADME', rootDir));
+        });
+
+        it('should not resolve "/../../package.json" with use extension in url option', function() {
+            should.not.exist(resolver('/../../package.json', rootDir, { useExtensionInUrl: true }));
+        });
+
+        it('should not resolve traversal buried in a sub-folder path', function() {
+            should.not.exist(resolver('/sub/../../../README', rootDir));
+        });
+
+        it('should still resolve a file name that merely starts with dots', function() {
+            // guard must not reject legitimate names -- only ".." path segments
+            var file = resolver('/test', rootDir);
+            file.should.equal(path.resolve(rootDir, 'test.md'));
+        });
+    });
+
+    describe('malformed percent-encoding', function() {
+
+        // decodeURIComponent throws a URIError on these -- must be reported as "not found"
+        it('should not throw for a trailing "%"', function() {
+            (function() {
+                resolver('/foo%', rootDir);
+            }).should.not.throw();
+        });
+
+        it('should return null for a trailing "%"', function() {
+            should.not.exist(resolver('/foo%', rootDir));
+        });
+
+        it('should return null for a non-hex escape', function() {
+            should.not.exist(resolver('/%zz', rootDir));
+        });
+
+        it('should return null for a malformed escape in a sub-folder segment', function() {
+            should.not.exist(resolver('/sub/%e0%a4%a/test', rootDir));
+        });
+
+        it('should still resolve a validly encoded path', function() {
+            // guard must not swallow legitimate encodings
+            resolver('/test%20space', rootDir).should.equal(path.resolve(rootDir, 'test space.md'));
+        });
+    });
 });
