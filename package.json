@@ -25,9 +25,7 @@
   "homepage": "http://lyphtec.github.io/markdown-serve",
   "dependencies": {
     "js-yaml": "^4.1.0",
-    "lodash": "^4.17.21",
-    "marked": "^15.0.2",
-    "mkdirp": "^3.0.1"
+    "marked": "^15.0.2"
   },
   "devDependencies": {
     "chai": "^4.3.10",
