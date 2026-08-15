@@ -9,6 +9,7 @@ test/
 coverage/
 .nyc_output/
 .vscode/
+.jshintrc
 
 # Mac OS X
 .DS_Store
