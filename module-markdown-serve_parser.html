@@ -35,7 +35,7 @@
 <nav >
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MarkdownFile.html">MarkdownFile</a><ul class='methods'><li data-type='method'><a href="MarkdownFile.html#parseContent">parseContent</a></li><li data-type='method'><a href="MarkdownFile.html#saveChanges">saveChanges</a></li></ul></li><li><a href="MarkdownServer.html">MarkdownServer</a><ul class='methods'><li data-type='method'><a href="MarkdownServer.html#get">get</a></li><li data-type='method'><a href="MarkdownServer.html#save">save</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-markdown-serve.html">markdown-serve</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve.html#.middleware">middleware</a></li></ul></li><li><a href="module-markdown-serve_parser.html">markdown-serve/parser</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_parser.html#.parse">parse</a></li></ul></li><li><a href="module-markdown-serve_resolver.html">markdown-serve/resolver</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_resolver.html">module:markdown-serve/resolver</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MarkdownFile.html">MarkdownFile</a><ul class='methods'><li data-type='method'><a href="MarkdownFile.html#parseContent">parseContent</a></li><li data-type='method'><a href="MarkdownFile.html#saveChanges">saveChanges</a></li></ul></li><li><a href="MarkdownServer.html">MarkdownServer</a><ul class='methods'><li data-type='method'><a href="MarkdownServer.html#get">get</a></li><li data-type='method'><a href="MarkdownServer.html#save">save</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-markdown-serve.html">markdown-serve</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve.html#.middleware">middleware</a></li></ul></li><li><a href="module-markdown-serve_parser.html">markdown-serve/parser</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_parser.html#.parse">parse</a></li><li data-type='method'><a href="module-markdown-serve_parser.html#~isPlainObject">isPlainObject</a></li></ul></li><li><a href="module-markdown-serve_resolver.html">markdown-serve/resolver</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_resolver.html">module:markdown-serve/resolver</a></li><li data-type='method'><a href="module-markdown-serve_resolver.html#~contained">contained</a></li><li data-type='method'><a href="module-markdown-serve_resolver.html#~isFile">isFile</a></li></ul></li></ul>
     
 </nav>
 
@@ -176,15 +176,9 @@
         
             <li>module:marked</li>
         
-            <li>module:highlight.js</li>
-        
-            <li>module:lodash</li>
-        
             <li>module:crypto</li>
         
             <li>module:path</li>
-        
-            <li>module:mkdirp</li>
         </ul>
     
 
@@ -216,7 +210,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line32">line 32</a>
+        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line27">line 27</a>
     </li></ul></dd>
     
 
@@ -293,7 +287,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line50">line 50</a>
+        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -505,6 +499,165 @@
 
 
         
+            
+
+    
+
+    <h4 class="name" id="~isPlainObject"><span class="type-signature type-signature-inner">(inner) </span>isPlainObject<span class="signature">(value)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Whether a value is a plain object literal (as opposed to an array, Date, string etc).<br>
+Matches the semantics of lodash's isPlainObject, which this replaced.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line210">line 210</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Value to test</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>True if value is a plain object</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
     
 
     
@@ -531,7 +684,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line34">line 34</a>
+        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -707,7 +860,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Wed Nov 27 2024 00:43:48 GMT+1100 (Australian Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Wed Aug 19 2026 21:35:33 GMT+1000 (Australian Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

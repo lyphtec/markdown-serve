@@ -35,7 +35,7 @@
 <nav >
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MarkdownFile.html">MarkdownFile</a><ul class='methods'><li data-type='method'><a href="MarkdownFile.html#parseContent">parseContent</a></li><li data-type='method'><a href="MarkdownFile.html#saveChanges">saveChanges</a></li></ul></li><li><a href="MarkdownServer.html">MarkdownServer</a><ul class='methods'><li data-type='method'><a href="MarkdownServer.html#get">get</a></li><li data-type='method'><a href="MarkdownServer.html#save">save</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-markdown-serve.html">markdown-serve</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve.html#.middleware">middleware</a></li></ul></li><li><a href="module-markdown-serve_parser.html">markdown-serve/parser</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_parser.html#.parse">parse</a></li></ul></li><li><a href="module-markdown-serve_resolver.html">markdown-serve/resolver</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_resolver.html">module:markdown-serve/resolver</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MarkdownFile.html">MarkdownFile</a><ul class='methods'><li data-type='method'><a href="MarkdownFile.html#parseContent">parseContent</a></li><li data-type='method'><a href="MarkdownFile.html#saveChanges">saveChanges</a></li></ul></li><li><a href="MarkdownServer.html">MarkdownServer</a><ul class='methods'><li data-type='method'><a href="MarkdownServer.html#get">get</a></li><li data-type='method'><a href="MarkdownServer.html#save">save</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-markdown-serve.html">markdown-serve</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve.html#.middleware">middleware</a></li></ul></li><li><a href="module-markdown-serve_parser.html">markdown-serve/parser</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_parser.html#.parse">parse</a></li><li data-type='method'><a href="module-markdown-serve_parser.html#~isPlainObject">isPlainObject</a></li></ul></li><li><a href="module-markdown-serve_resolver.html">markdown-serve/resolver</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_resolver.html">module:markdown-serve/resolver</a></li><li data-type='method'><a href="module-markdown-serve_resolver.html#~contained">contained</a></li><li data-type='method'><a href="module-markdown-serve_resolver.html#~isFile">isFile</a></li></ul></li></ul>
     
 </nav>
 
@@ -182,7 +182,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="resolver.js.html">resolver.js</a>, <a href="resolver.js.html#line27">line 27</a>
+        <a href="resolver.js.html">resolver.js</a>, <a href="resolver.js.html#line30">line 30</a>
     </li></ul></dd>
     
 
@@ -490,7 +490,8 @@
                 </td>
             
 
-            <td class="description last"><p>If true, the file extension will not be removed from the url when resolving it</p></td>
+            <td class="description last"><p>If true, the urlPath is expected to carry the file extension itself (eg. &quot;/about.md&quot;), so none is appended to it.<br>
+Default page names synthesised by the resolver still take <code>fileExtension</code>, so &quot;/&quot; and &quot;/subfolder/&quot; continue to resolve to &quot;index.md&quot;.</p></td>
         </tr>
 
     
@@ -523,7 +524,9 @@
 
         
 <div class="param-desc">
-    <p>Full path to Markdown file if it exists, otherwise null</p>
+    <p>Full path to Markdown file if it exists and is contained within rootDir, otherwise null.<br>
+Paths that escape rootDir (eg. via &quot;..&quot; segments in urlPath) never resolve, so they cannot be used to read files elsewhere on disk.<br>
+A urlPath containing malformed percent-encoding (eg. &quot;/foo%&quot;) resolves to null rather than throwing.</p>
 </div>
 
 
@@ -596,7 +599,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="resolver.js.html">resolver.js</a>, <a href="resolver.js.html#line27">line 27</a>
+        <a href="resolver.js.html">resolver.js</a>, <a href="resolver.js.html#line30">line 30</a>
     </li></ul></dd>
     
 
@@ -904,7 +907,8 @@
                 </td>
             
 
-            <td class="description last"><p>If true, the file extension will not be removed from the url when resolving it</p></td>
+            <td class="description last"><p>If true, the urlPath is expected to carry the file extension itself (eg. &quot;/about.md&quot;), so none is appended to it.<br>
+Default page names synthesised by the resolver still take <code>fileExtension</code>, so &quot;/&quot; and &quot;/subfolder/&quot; continue to resolve to &quot;index.md&quot;.</p></td>
         </tr>
 
     
@@ -937,7 +941,9 @@
 
         
 <div class="param-desc">
-    <p>Full path to Markdown file if it exists, otherwise null</p>
+    <p>Full path to Markdown file if it exists and is contained within rootDir, otherwise null.<br>
+Paths that escape rootDir (eg. via &quot;..&quot; segments in urlPath) never resolve, so they cannot be used to read files elsewhere on disk.<br>
+A urlPath containing malformed percent-encoding (eg. &quot;/foo%&quot;) resolves to null rather than throwing.</p>
 </div>
 
 
@@ -949,6 +955,349 @@
     <dd>
         
 <span class="param-type">string</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~contained"><span class="type-signature type-signature-inner">(inner) </span>contained<span class="signature">(file, rootDir)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Guards against directory traversal. Returns <code>file</code> only if it sits inside <code>rootDir</code>, otherwise null.<br>
+Exposed so that <a href="MarkdownServer.html#save">MarkdownServer#save</a> can apply the same check to paths it builds for files that don't exist yet.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="resolver.js.html">resolver.js</a>, <a href="resolver.js.html#line117">line 117</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>file</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Full (already resolved) path to check</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rootDir</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Full path to the root folder that <code>file</code> must be contained within</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p><code>file</code> if it is contained within <code>rootDir</code>, otherwise null</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~isFile"><span class="type-signature type-signature-inner">(inner) </span>isFile<span class="signature">(file)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Like exists but excludes directories. Used for candidates that are meant to be the<br>
+final Markdown file: with useExtensionInUrl there is no extension to append, so &quot;/sub&quot; would<br>
+otherwise match the &quot;sub&quot; directory itself and be handed to fs.readFile as if it were a file.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="resolver.js.html">resolver.js</a>, <a href="resolver.js.html#line145">line 145</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>file</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Full path to check</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>True only if the path exists and is a regular file</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
 
 
 
@@ -979,7 +1328,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Wed Nov 27 2024 00:43:48 GMT+1100 (Australian Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Wed Aug 19 2026 21:35:33 GMT+1000 (Australian Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

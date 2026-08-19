@@ -35,7 +35,7 @@
 <nav >
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MarkdownFile.html">MarkdownFile</a><ul class='methods'><li data-type='method'><a href="MarkdownFile.html#parseContent">parseContent</a></li><li data-type='method'><a href="MarkdownFile.html#saveChanges">saveChanges</a></li></ul></li><li><a href="MarkdownServer.html">MarkdownServer</a><ul class='methods'><li data-type='method'><a href="MarkdownServer.html#get">get</a></li><li data-type='method'><a href="MarkdownServer.html#save">save</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-markdown-serve.html">markdown-serve</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve.html#.middleware">middleware</a></li></ul></li><li><a href="module-markdown-serve_parser.html">markdown-serve/parser</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_parser.html#.parse">parse</a></li></ul></li><li><a href="module-markdown-serve_resolver.html">markdown-serve/resolver</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_resolver.html">module:markdown-serve/resolver</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MarkdownFile.html">MarkdownFile</a><ul class='methods'><li data-type='method'><a href="MarkdownFile.html#parseContent">parseContent</a></li><li data-type='method'><a href="MarkdownFile.html#saveChanges">saveChanges</a></li></ul></li><li><a href="MarkdownServer.html">MarkdownServer</a><ul class='methods'><li data-type='method'><a href="MarkdownServer.html#get">get</a></li><li data-type='method'><a href="MarkdownServer.html#save">save</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-markdown-serve.html">markdown-serve</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve.html#.middleware">middleware</a></li></ul></li><li><a href="module-markdown-serve_parser.html">markdown-serve/parser</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_parser.html#.parse">parse</a></li><li data-type='method'><a href="module-markdown-serve_parser.html#~isPlainObject">isPlainObject</a></li></ul></li><li><a href="module-markdown-serve_resolver.html">markdown-serve/resolver</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_resolver.html">module:markdown-serve/resolver</a></li><li data-type='method'><a href="module-markdown-serve_resolver.html#~contained">contained</a></li><li data-type='method'><a href="module-markdown-serve_resolver.html#~isFile">isFile</a></li></ul></li></ul>
     
 </nav>
 
@@ -86,7 +86,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line248">line 248</a>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line250">line 250</a>
     </li></ul></dd>
     
 
@@ -372,7 +372,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line288">line 288</a>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line290">line 290</a>
     </li></ul></dd>
     
 
@@ -555,7 +555,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line331">line 331</a>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line334">line 334</a>
     </li></ul></dd>
     
 
@@ -659,7 +659,8 @@
 
             
 
-            <td class="description last"><p>Path (relative to root) with leading / (slash) to Markdown file we want to save eg. &quot;/subfolder/file&quot;. Will overwrite existing file or create new file if it doesn't exist. Note: Do not include &quot;.md&quot; extension.</p></td>
+            <td class="description last"><p>Path (relative to root) with leading / (slash) to Markdown file we want to save eg. &quot;/subfolder/file&quot;. Will overwrite existing file or create new file if it doesn't exist. Note: Do not include &quot;.md&quot; extension.<br>
+Paths that resolve outside of rootDirectory (eg. via &quot;..&quot; segments) are rejected with an error rather than written.</p></td>
         </tr>
 
     
@@ -830,7 +831,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line263">line 263</a>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line265">line 265</a>
     </li></ul></dd>
     
 
@@ -1005,7 +1006,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line223">line 223</a>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line224">line 224</a>
     </li></ul></dd>
     
 
@@ -1179,7 +1180,8 @@
                 </td>
             
 
-            <td class="description last"><p>If true, the file extension will not be removed from the url when resolving it</p></td>
+            <td class="description last"><p>If true, the url is expected to carry the file extension itself (eg. &quot;/about.md&quot;), so none is appended to it.<br>
+This applies to <a href="MarkdownServer.html#save">MarkdownServer.save()</a> as well. Default page names remain unaffected, so &quot;/&quot; and &quot;/subfolder/&quot; still resolve to &quot;index.md&quot;.</p></td>
         </tr>
 
     
@@ -1234,7 +1236,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server.js.html">server.js</a>, <a href="server.js.html#line299">line 299</a>
+        <a href="server.js.html">server.js</a>, <a href="server.js.html#line301">line 301</a>
     </li></ul></dd>
     
 
@@ -1410,7 +1412,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Wed Nov 27 2024 00:43:48 GMT+1100 (Australian Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Wed Aug 19 2026 21:35:33 GMT+1000 (Australian Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

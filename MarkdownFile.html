@@ -35,7 +35,7 @@
 <nav >
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MarkdownFile.html">MarkdownFile</a><ul class='methods'><li data-type='method'><a href="MarkdownFile.html#parseContent">parseContent</a></li><li data-type='method'><a href="MarkdownFile.html#saveChanges">saveChanges</a></li></ul></li><li><a href="MarkdownServer.html">MarkdownServer</a><ul class='methods'><li data-type='method'><a href="MarkdownServer.html#get">get</a></li><li data-type='method'><a href="MarkdownServer.html#save">save</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-markdown-serve.html">markdown-serve</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve.html#.middleware">middleware</a></li></ul></li><li><a href="module-markdown-serve_parser.html">markdown-serve/parser</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_parser.html#.parse">parse</a></li></ul></li><li><a href="module-markdown-serve_resolver.html">markdown-serve/resolver</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_resolver.html">module:markdown-serve/resolver</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MarkdownFile.html">MarkdownFile</a><ul class='methods'><li data-type='method'><a href="MarkdownFile.html#parseContent">parseContent</a></li><li data-type='method'><a href="MarkdownFile.html#saveChanges">saveChanges</a></li></ul></li><li><a href="MarkdownServer.html">MarkdownServer</a><ul class='methods'><li data-type='method'><a href="MarkdownServer.html#get">get</a></li><li data-type='method'><a href="MarkdownServer.html#save">save</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-markdown-serve.html">markdown-serve</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve.html#.middleware">middleware</a></li></ul></li><li><a href="module-markdown-serve_parser.html">markdown-serve/parser</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_parser.html#.parse">parse</a></li><li data-type='method'><a href="module-markdown-serve_parser.html#~isPlainObject">isPlainObject</a></li></ul></li><li><a href="module-markdown-serve_resolver.html">markdown-serve/resolver</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_resolver.html">module:markdown-serve/resolver</a></li><li data-type='method'><a href="module-markdown-serve_resolver.html#~contained">contained</a></li><li data-type='method'><a href="module-markdown-serve_resolver.html#~isFile">isFile</a></li></ul></li></ul>
     
 </nav>
 
@@ -96,7 +96,7 @@ be available as the <code>MarkdownFile.parsedContent</code> string property.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line128">line 128</a>
+        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line126">line 126</a>
     </li></ul></dd>
     
 
@@ -310,7 +310,8 @@ be available as the <code>MarkdownFile.parsedContent</code> string property.</p>
 
             
 
-            <td class="description last"><p>Gets the Node fs.Stats object containing properties of file</p></td>
+            <td class="description last"><p>Gets the Node fs.Stats object containing properties of file. NOTE: Like <code>_file</code>, this property is deleted and not available when used in<br>
+the simple middleware scenario, as fs.Stats exposes uid / gid / ino / dev / mode. Use the <code>created</code>, <code>modified</code> &amp; <code>size</code> properties instead, which are always present.</p></td>
         </tr>
 
     
@@ -584,7 +585,7 @@ in the simple middleware scenario and when the <code>preParse</code> option is s
 
     
 
-    <h4 class="name" id="parseContent"><span class="type-signature"></span>parseContent<span class="signature">(callback)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="parseContent"><span class="type-signature"></span>parseContent<span class="signature">(callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -600,7 +601,7 @@ in the simple middleware scenario and when the <code>preParse</code> option is s
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line150">line 150</a>
+        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -660,6 +661,8 @@ in the simple middleware scenario and when the <code>preParse</code> option is s
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -686,10 +689,20 @@ in the simple middleware scenario and when the <code>preParse</code> option is s
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"><p><a href="MarkdownFile.html#~parseContentCallback">parseContentCallback</a></p></td>
+            <td class="description last"><p>Optional <a href="MarkdownFile.html#~parseContentCallback">parseContentCallback</a>. If omitted, the HTML is returned synchronously.</p></td>
         </tr>
 
     
@@ -715,7 +728,8 @@ in the simple middleware scenario and when the <code>preParse</code> option is s
 
         
 <div class="param-desc">
-    <p>Converted HTML string</p>
+    <p>Converted HTML string. An empty file (no rawContent) yields an empty string when called<br>
+synchronously; the callback form reports it as an error instead.</p>
 </div>
 
 
@@ -758,7 +772,7 @@ in the simple middleware scenario and when the <code>preParse</code> option is s
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line173">line 173</a>
+        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line174">line 174</a>
     </li></ul></dd>
     
 
@@ -922,7 +936,7 @@ in the simple middleware scenario and when the <code>preParse</code> option is s
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line137">line 137</a>
+        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line135">line 135</a>
     </li></ul></dd>
     
 
@@ -1101,7 +1115,7 @@ in the simple middleware scenario and when the <code>preParse</code> option is s
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line160">line 160</a>
+        <a href="parser.js.html">parser.js</a>, <a href="parser.js.html#line161">line 161</a>
     </li></ul></dd>
     
 
@@ -1277,7 +1291,7 @@ in the simple middleware scenario and when the <code>preParse</code> option is s
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Wed Nov 27 2024 00:43:48 GMT+1100 (Australian Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Wed Aug 19 2026 21:35:33 GMT+1000 (Australian Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

@@ -35,7 +35,7 @@
 <nav >
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MarkdownFile.html">MarkdownFile</a><ul class='methods'><li data-type='method'><a href="MarkdownFile.html#parseContent">parseContent</a></li><li data-type='method'><a href="MarkdownFile.html#saveChanges">saveChanges</a></li></ul></li><li><a href="MarkdownServer.html">MarkdownServer</a><ul class='methods'><li data-type='method'><a href="MarkdownServer.html#get">get</a></li><li data-type='method'><a href="MarkdownServer.html#save">save</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-markdown-serve.html">markdown-serve</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve.html#.middleware">middleware</a></li></ul></li><li><a href="module-markdown-serve_parser.html">markdown-serve/parser</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_parser.html#.parse">parse</a></li></ul></li><li><a href="module-markdown-serve_resolver.html">markdown-serve/resolver</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_resolver.html">module:markdown-serve/resolver</a></li></ul></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="MarkdownFile.html">MarkdownFile</a><ul class='methods'><li data-type='method'><a href="MarkdownFile.html#parseContent">parseContent</a></li><li data-type='method'><a href="MarkdownFile.html#saveChanges">saveChanges</a></li></ul></li><li><a href="MarkdownServer.html">MarkdownServer</a><ul class='methods'><li data-type='method'><a href="MarkdownServer.html#get">get</a></li><li data-type='method'><a href="MarkdownServer.html#save">save</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-markdown-serve.html">markdown-serve</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve.html#.middleware">middleware</a></li></ul></li><li><a href="module-markdown-serve_parser.html">markdown-serve/parser</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_parser.html#.parse">parse</a></li><li data-type='method'><a href="module-markdown-serve_parser.html#~isPlainObject">isPlainObject</a></li></ul></li><li><a href="module-markdown-serve_resolver.html">markdown-serve/resolver</a><ul class='methods'><li data-type='method'><a href="module-markdown-serve_resolver.html">module:markdown-serve/resolver</a></li><li data-type='method'><a href="module-markdown-serve_resolver.html#~contained">contained</a></li><li data-type='method'><a href="module-markdown-serve_resolver.html#~isFile">isFile</a></li></ul></li></ul>
     
 </nav>
 
@@ -59,8 +59,6 @@
  * @fileOverview Main object exported by module. Can be used to instantiate a new {@link MarkdownServer} instance or invoked as a [middleware]{@link module:markdown-serve.middleware} function in Express.
  * @module markdown-serve
  * @requires path
- * @requires lodash
- * @requires mkdirp
  * @requires fs
  * @requires markdown-serve/parser
  * @requires markdown-serve/resolver
@@ -70,10 +68,7 @@
 var path = require('path'),
     resolver = require('./resolver'),
     parser = require('./parser'),
-    _ = require('lodash'),
-    mkdirp = require('mkdirp'),
-    fs = require('fs'),
-    logger = null;
+    fs = require('fs');
 
 exports = module.exports = {
     /**
@@ -224,8 +219,9 @@ exports = module.exports = {
         if (options.resolverOptions)
             server.resolverOptions = options.resolverOptions;
 
-        if (options.logger)
-          logger = options.logger;
+        // scoped to this middleware instance -- a logger passed to one instance must not
+        // capture the errors of any other instance created in the same process
+        var logger = options.logger || null;
 
         return function(req, res, next) {
             if (req.method !== 'GET' &amp;&amp; !options.handler) return next();
@@ -244,14 +240,19 @@ exports = module.exports = {
                 // remove _file property as this is potentially a security risk
                 delete result._file;
 
+                // likewise for stats -- the raw fs.Stats carries uid, gid, ino, dev &amp; mode, and the
+                // default JSON response would serialize the lot. The useful values are already
+                // available as the created / modified / size properties.
+                delete result.stats;
+
                 if (options.view) {
-                    if (options.preParse &amp;&amp; _.isBoolean(options.preParse) &amp;&amp; options.preParse === true) {
+                    if (options.preParse === true) {
                         result.parsedContent = result.parseContent();
                         res.render(options.view, { markdownFile: result });
                         return;
                     }
 
-                    if (options.preParse &amp;&amp; _.isFunction(options.preParse)) {
+                    if (typeof options.preParse === 'function') {
                         var vm = options.preParse(result);
                         res.render(options.view, vm);
                         return;
@@ -261,7 +262,7 @@ exports = module.exports = {
                     return;
                 }
 
-                if (options.handler &amp;&amp; _.isFunction(options.handler)) {
+                if (typeof options.handler === 'function') {
                     return options.handler(result, req, res, next);
                 }
 
@@ -279,7 +280,8 @@ exports = module.exports = {
  * @alias resolverOptions
  * @property {string=} [defaultPagename=index] Name of default document
  * @property {string=} [fileExtension=md] File extension of Markdown files
- * @property {boolean=} [useExtensionInUrl=false] If true, the file extension will not be removed from the url when resolving it
+ * @property {boolean=} [useExtensionInUrl=false] If true, the url is expected to carry the file extension itself (eg. "/about.md"), so none is appended to it.
+ * This applies to [MarkdownServer.save()]{@link MarkdownServer#save} as well. Default page names remain unaffected, so "/" and "/subfolder/" still resolve to "index.md".
  */
 
 /**
@@ -361,6 +363,7 @@ MarkdownServer.prototype.get = function(uriPath, callback) {
  * Saves MarkdownFile for given uriPath
  * @function
  * @param {string} uriPath Path (relative to root) with leading / (slash) to Markdown file we want to save eg. "/subfolder/file". Will overwrite existing file or create new file if it doesn't exist. Note: Do not include ".md" extension.
+ * Paths that resolve outside of [rootDirectory]{@link MarkdownServer#rootDirectory} (eg. via ".." segments) are rejected with an error rather than written.
  * @param {string} rawContent Markdown text content to save
  * @param {?Object=} meta Optional Javascript object to serialize as YAML front-matter and saved in file header
  * @param {saveCallback} callback [saveCallback]{@link MarkdownServer~saveCallback}
@@ -386,7 +389,7 @@ MarkdownServer.prototype.save = function(uriPath, rawContent, meta, callback) {
 
     // make "meta" param optional
     var hasMeta = true;
-    if (arguments.length === 3 &amp;&amp; _.isFunction(arguments[2])) {
+    if (arguments.length === 3 &amp;&amp; typeof arguments[2] === 'function') {
         callback = arguments[2];
         hasMeta = false;
     }
@@ -394,7 +397,7 @@ MarkdownServer.prototype.save = function(uriPath, rawContent, meta, callback) {
     if (!rawContent)
         return callback(new Error('rawContent is required'));
 
-    if (!_.isString(rawContent))
+    if (typeof rawContent !== 'string')
         return callback(new Error('rawContent must be a string'));
 
 
@@ -407,16 +410,31 @@ MarkdownServer.prototype.save = function(uriPath, rawContent, meta, callback) {
 
         var defPageName = (self.resolverOptions &amp;&amp; self.resolverOptions.defaultPageName) ? self.resolverOptions.defaultPageName : 'index';
 
-        // append default page name to trailing slashes
-        if (uriPath.match(/\/$/))
-            uriPath += defPageName;
+        // mirrors the resolver: with useExtensionInUrl the caller's path already carries the
+        // extension, so appending it again would produce "name.md.md"
+        var pathExt = (self.resolverOptions &amp;&amp; self.resolverOptions.useExtensionInUrl) ? '' : ext;
 
-        file = path.join(self.rootDirectory, uriPath + ext);
+        // append default page name to trailing slashes. Kept in a local -- uriPath itself must stay
+        // as the caller gave it, because get() below has to re-resolve it under the same rules the
+        // resolver applies (a bare "/dir/index" wouldn't resolve when useExtensionInUrl is set)
+        var savePath = uriPath;
+        if (savePath.match(/\/$/)) {
+            savePath += defPageName;
+            pathExt = ext;    // the default page name is ours, so it takes the real file extension
+        }
+
+        // resolve (not join) so that any ".." segments are collapsed before the containment check below
+        var rel = savePath.replace(/^\/+/, '');
+        file = resolver.contained(path.resolve(self.rootDirectory, rel), self.rootDirectory);
+
+        if (!file)
+            return callback(new Error('Cannot save outside of rootDirectory, path: ' + uriPath));
+
+        file += pathExt;
     }
 
-    var dir = path.dirname(file);
-    if (!fs.existsSync(dir))
-        mkdirp.sync(dir);
+    // recursive mkdir is a no-op when the folder already exists
+    fs.mkdirSync(path.dirname(file), { recursive: true });
 
     var mdFile = new parser.MarkdownFile(file);
 
@@ -445,7 +463,7 @@ MarkdownServer.prototype.save = function(uriPath, rawContent, meta, callback) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Wed Nov 27 2024 00:43:48 GMT+1100 (Australian Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> on Wed Aug 19 2026 21:35:33 GMT+1000 (Australian Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
